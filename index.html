@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caixa Secreta – Descubra seu desejo oculto</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Cabeçalho e logo -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="#inicio" class="logo">
+        <h1>Caixa Secreta</h1>
+        <p class="slogan">Descubra seu desejo oculto</p>
+      </a>
+      <nav class="nav" aria-label="Menu principal">
+        <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false"><span class="bar"></span></button>
+        <ul class="nav-list">
+          <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#carrinho">Carrinho</a></li>
+          <li><a href="#frete">Frete e Condições</a></li>
+          <li><a href="#lancamento">Lançamento</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Banner principal -->
+  <section id="inicio" class="banner">
+    <div class="banner-img-wrap">
+      <img src="imagens/banner.jpg" alt="Caixa Secreta" class="banner-img">
+    </div>
+    <div class="banner-overlay"></div>
+  </section>
+
+  <!-- Catálogo de produtos -->
+  <section id="catalogo" class="section catalogo">
+    <div class="container">
+      <h2 class="section-title">Catálogo</h2>
+      <div class="categoria-tabs" role="tablist"></div>
+      <div class="produtos-grid" id="produtos-grid"></div>
+    </div>
+  </section>
+
+  <!-- Carrinho -->
+  <section id="carrinho" class="section carrinho-section">
+    <div class="container">
+      <h2 class="section-title">Carrinho</h2>
+      <div class="carrinho-content">
+        <div class="carrinho-lista" id="carrinho-lista"></div>
+        <div class="carrinho-resumo" id="carrinho-resumo">
+          <p class="carrinho-vazio" id="carrinho-vazio">Seu carrinho está vazio.</p>
+          <div class="carrinho-total" id="carrinho-total-wrap" hidden>
+            <p><strong>Total:</strong> <span id="carrinho-total">R$ 0,00</span></p>
+            <a href="#" class="btn btn-whatsapp" id="btn-finalizar-whatsapp">Finalizar pedido via WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frete e Condições -->
+  <section id="frete" class="section frete">
+    <div class="container">
+      <h2 class="section-title">Frete e Condições</h2>
+      <div class="frete-grid">
+        <div class="frete-card">
+          <h3>Frete e Condições</h3>
+          <ul>
+            <li>Compras acima de R$ 120,00 garantem frete grátis para São Paulo.</li>
+            <li>Toda compra acompanha um brinde especial.</li>
+          </ul>
+        </div>
+        <div class="frete-card">
+          <h3>Formas de Pagamento</h3>
+          <ul>
+            <li>Aceitamos cartões de crédito e Pix.</li>
+            <li>Pagamentos via Pix têm 5% de desconto.</li>
+            <li>Envio realizado em até 3 dias úteis após a confirmação.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lançamento em breve -->
+  <section id="lancamento" class="section lancamento">
+    <div class="container">
+      <h2 class="section-title">Lançamento em breve</h2>
+      <p class="lancamento-texto">
+        Estamos criando a Caixa Secreta, uma assinatura mensal cheia de produtos únicos. Acompanhe!
+      </p>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-whatsapp">WhatsApp – (11) 91853-5361</p>
+      <p class="footer-brand">Caixa Secreta</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
