@@ -130,7 +130,7 @@ function renderizarProdutos() {
   produtosGrid.innerHTML = lista.map(p => `
     <article class="produto-card" data-id="${p.id}">
       <div class="produto-img-wrap">
-        <img src="${p.imagem}" alt="${p.nome}" loading="lazy" onerror="this.parentElement.style.background='var(--roxo-escuro)'">
+        <img src="${p.imagem}" alt="${p.nome}" loading="lazy" onerror="this.parentElement.style.background='var(--fundo)'">
       </div>
       <div class="produto-info">
         <h3 class="produto-nome">${p.nome}</h3>
