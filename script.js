@@ -33,6 +33,41 @@ const PRODUTOS = [
     preco: 49.9,
     imagem: 'imagens/Comesticos/Xana Loka Gel Excitante Feminino Linha Brasileirinhos 15g.png',
     categoria: 'Comesticos'
+  },
+  {
+    id: 'chabata',
+    nome: 'Chabata',
+    preco: 79.9,
+    imagem: 'imagens/Fetiche_Sado/Chabata.png',
+    categoria: 'Fetiche_Sado'
+  },
+  {
+    id: 'chicote',
+    nome: 'Chicote',
+    preco: 89.9,
+    imagem: 'imagens/Fetiche_Sado/Chicote.png',
+    categoria: 'Fetiche_Sado'
+  },
+  {
+    id: 'corda',
+    nome: 'Corda',
+    preco: 59.9,
+    imagem: 'imagens/Fetiche_Sado/Corda.png',
+    categoria: 'Fetiche_Sado'
+  },
+  {
+    id: 'kit-sado',
+    nome: 'Kit Sado',
+    preco: 149.9,
+    imagem: 'imagens/Fetiche_Sado/Kit Sado.png',
+    categoria: 'Fetiche_Sado'
+  },
+  {
+    id: 'sado',
+    nome: 'Sado',
+    preco: 99.9,
+    imagem: 'imagens/Fetiche_Sado/Sado.png',
+    categoria: 'Fetiche_Sado'
   }
 ];
 
