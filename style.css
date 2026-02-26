@@ -1,11 +1,11 @@
 /* ============================================
    Caixa Secreta – Estilo premium, discreto e sensual
-   Cores: preto, rosa suave/rosé, roxo escuro, brilho sutil
+   Cores: dark ebony, rosa suave/rosé, roxo escuro, brilho sutil
    ============================================ */
 
 :root {
-  --preto: #0d0d0d;
-  --preto-suave: #1a1a1a;
+  --preto: #1c1917;
+  --preto-suave: #252220;
   --rosa-suave: #e8b4bc;
   --rose: #d4a5a5;
   --roxo-escuro: #2d1b3d;
@@ -72,7 +72,7 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: linear-gradient(180deg, rgba(13, 13, 13, 0.98) 0%, rgba(13, 13, 13, 0.9) 100%);
+  background: linear-gradient(180deg, rgba(28, 25, 23, 0.98) 0%, rgba(28, 25, 23, 0.9) 100%);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(232, 180, 188, 0.1);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
@@ -190,7 +190,7 @@ a:hover {
 .banner-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 0%, rgba(13, 13, 13, 0.4) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(28, 25, 23, 0.4) 100%);
   pointer-events: none;
 }
 
@@ -283,7 +283,7 @@ a:hover {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 50%, rgba(13, 13, 13, 0.6) 100%);
+  background: linear-gradient(180deg, transparent 50%, rgba(28, 25, 23, 0.6) 100%);
   opacity: 0.6;
   transition: opacity var(--transicao);
 }
@@ -291,7 +291,7 @@ a:hover {
 .produto-card img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 
@@ -368,7 +368,7 @@ a:hover {
 .carrinho-item-img {
   width: 64px;
   height: 64px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 6px;
   background: var(--roxo-escuro);
 }

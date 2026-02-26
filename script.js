@@ -12,9 +12,28 @@ const PRODUTOS = [
     preco: 89.9,
     imagem: 'imagens/Vibradores/Vibrador em Formato de pincel com 8 Modos de Vibração.png',
     categoria: 'Vibradores'
+  },
+  {
+    id: 'vibrador-magesty',
+    nome: 'Magesty Vibrador de Calcinha 9 Modos de Pulsação Controle Via APP',
+    preco: 129.9,
+    imagem: 'imagens/Vibradores/Magesty Vibrador de Calcinha 9 Modos de Pulsação Controle Via APP.png',
+    categoria: 'Vibradores'
+  },
+  {
+    id: 'kuloko-gel',
+    nome: 'Kuloko Gel Dessensibilizante e Excitante Anal Linha Brasileirinhos 15g',
+    preco: 49.9,
+    imagem: 'imagens/Comesticos/Kuloko Gel Dessensibilizante e Excitante Anal Linha Brasileirinhos 15g.png',
+    categoria: 'Comesticos'
+  },
+  {
+    id: 'xana-loka-gel',
+    nome: 'Xana Loka Gel Excitante Feminino Linha Brasileirinhos 15g',
+    preco: 49.9,
+    imagem: 'imagens/Comesticos/Xana Loka Gel Excitante Feminino Linha Brasileirinhos 15g.png',
+    categoria: 'Comesticos'
   }
-  // Adicione mais produtos seguindo o mesmo formato:
-  // { id: 'id-unico', nome: 'Nome', preco: 0, imagem: 'imagens/Categoria/arquivo.png', categoria: 'Categoria' }
 ];
 
 const WHATSAPP_NUMERO = '5511918535361';
