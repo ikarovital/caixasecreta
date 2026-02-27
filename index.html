@@ -23,7 +23,8 @@
       <nav class="nav" aria-label="Menu principal">
         <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false"><span class="bar"></span></button>
         <ul class="nav-list">
-          <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#promo-relampago">Promoção Relâmpago</a></li>
+          <li><a href="#catalogo">Ofertas</a></li>
           <li><a href="#carrinho">Carrinho</a></li>
           <li><a href="#frete">Frete e Condições</a></li>
           <li><a href="#lancamento">Lançamento</a></li>
@@ -40,10 +41,51 @@
     <div class="banner-overlay"></div>
   </section>
 
-  <!-- Catálogo de produtos -->
+  <!-- Promoção Relâmpago -->
+  <section id="promo-relampago" class="section promo-relampago">
+    <div class="container container-promo">
+      <div class="promo-card">
+        <div class="promo-header">
+          <div class="promo-titulo-esq">
+            <span class="promo-piscou">PISCOU</span>
+            <span class="promo-mega">Mega Oferta</span>
+          </div>
+          <div class="promo-titulo-dir">
+            <span class="promo-oferta">oferta</span>
+            <span class="promo-relampago-txt">RELÂMPAGO</span>
+          </div>
+        </div>
+        <div class="promo-countdown" aria-live="polite">
+          <span class="promo-countdown-label">Termina em:</span>
+          <div class="promo-countdown-boxes">
+            <div class="promo-countdown-item">
+              <span class="promo-countdown-num" id="promo-dias">00</span>
+              <span class="promo-countdown-unidade">dias</span>
+            </div>
+            <div class="promo-countdown-item">
+              <span class="promo-countdown-num" id="promo-horas">00</span>
+              <span class="promo-countdown-unidade">horas</span>
+            </div>
+            <div class="promo-countdown-item">
+              <span class="promo-countdown-num" id="promo-min">00</span>
+              <span class="promo-countdown-unidade">min</span>
+            </div>
+            <div class="promo-countdown-item">
+              <span class="promo-countdown-num" id="promo-seg">00</span>
+              <span class="promo-countdown-unidade">seg</span>
+            </div>
+          </div>
+        </div>
+        <div class="promo-produtos" id="promo-produtos"></div>
+        <a href="https://wa.me/5511918535361?text=Ol%C3%A1!%20Gostaria%20de%20aproveitar%20a%20promo%C3%A7%C3%A3o%20rel%C3%A2mpago." class="promo-cta" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ofertas (produtos) -->
   <section id="catalogo" class="section catalogo">
     <div class="container">
-      <h2 class="section-title">Catálogo</h2>
+      <h2 class="section-title" id="titulo-ofertas"></h2>
       <div class="categoria-tabs" role="tablist"></div>
       <div class="produtos-grid" id="produtos-grid"></div>
     </div>
@@ -58,8 +100,9 @@
         <div class="carrinho-resumo" id="carrinho-resumo">
           <p class="carrinho-vazio" id="carrinho-vazio">Seu carrinho está vazio.</p>
           <div class="carrinho-total" id="carrinho-total-wrap" hidden>
+            <p><strong>Subtotal:</strong> <span id="carrinho-subtotal">R$ 0,00</span></p>
             <p><strong>Total:</strong> <span id="carrinho-total">R$ 0,00</span></p>
-            <a href="#" class="btn btn-whatsapp" id="btn-finalizar-whatsapp">Finalizar pedido via WhatsApp</a>
+            <button type="button" class="btn btn-whatsapp" id="btn-finalizar-whatsapp">Finalizar pedido</button>
           </div>
         </div>
       </div>
@@ -107,6 +150,51 @@
       <p class="footer-brand">Caixa Secreta</p>
     </div>
   </footer>
+
+  <!-- Modal: Cadastro + Frete + Pagamento antes do WhatsApp -->
+  <div class="modal-overlay" id="modal-finalizar" aria-hidden="true">
+    <div class="modal-finalizar">
+      <button type="button" class="modal-fechar" id="modal-fechar" aria-label="Fechar">&times;</button>
+      <h2 class="modal-titulo">Finalizar pedido</h2>
+      <p class="modal-desc">Preencha seus dados e informe o CEP para calcular o frete.</p>
+
+      <form id="form-finalizar" class="form-finalizar">
+        <label for="cadastro-nome">Nome completo *</label>
+        <input type="text" id="cadastro-nome" name="nome" required placeholder="Seu nome">
+
+        <label for="cadastro-telefone">WhatsApp *</label>
+        <input type="tel" id="cadastro-telefone" name="telefone" required placeholder="(11) 99999-9999">
+
+        <label for="cadastro-cep">CEP *</label>
+        <div class="input-cep-wrap">
+          <input type="text" id="cadastro-cep" name="cep" required placeholder="00000-000" maxlength="9">
+          <button type="button" class="btn btn-calcular-frete" id="btn-calcular-frete">Calcular frete</button>
+        </div>
+        <p class="form-msg" id="cep-msg"></p>
+        <p class="form-endereco" id="cep-endereco"></p>
+
+        <div class="resumo-frete" id="resumo-frete" hidden>
+          <p><strong>Subtotal:</strong> <span id="modal-subtotal">R$ 0,00</span></p>
+          <p><strong>Frete:</strong> <span id="modal-frete">–</span></p>
+          <p class="resumo-total"><strong>Total:</strong> <span id="modal-total">R$ 0,00</span></p>
+        </div>
+
+        <fieldset class="forma-pagamento">
+          <legend>Forma de pagamento *</legend>
+          <label class="radio-pagamento">
+            <input type="radio" name="pagamento" value="Pix" required>
+            <span>Pix (5% de desconto)</span>
+          </label>
+          <label class="radio-pagamento">
+            <input type="radio" name="pagamento" value="Cartão de crédito">
+            <span>Cartão de crédito</span>
+          </label>
+        </fieldset>
+
+        <button type="submit" class="btn btn-confirmar-whatsapp" id="btn-confirmar-whatsapp">Confirmar e enviar para WhatsApp</button>
+      </form>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
