@@ -133,10 +133,24 @@ const PRODUTOS = [
     categoria: 'Fetiche_Sado'
   },
   {
-    id: 'lingerie-branco-exemplo',
-    nome: 'Lingerie Exemplo (Frente e Costas)',
+    id: 'lingerie-branco-fio',
+    nome: 'Lingerie Branco Fio (Frente e Costas)',
     preco: 129.9,
-    imagens: ['imagens/Lingerie/branco1.png', 'imagens/Lingerie/branco2.png'],
+    imagens: ['imagens/Lingerie/branco fio1.png', 'imagens/Lingerie/brancio fio2.png'],
+    categoria: 'Lingerie'
+  },
+  {
+    id: 'lingerie-parte',
+    nome: 'Lingerie Parte (Frente e Costas)',
+    preco: 99.9,
+    imagens: ['imagens/Lingerie/parte1.webp', 'imagens/Lingerie/parte2.webp'],
+    categoria: 'Lingerie'
+  },
+  {
+    id: 'lingerie-pluz',
+    nome: 'Lingerie Pluz (Frente e Costas)',
+    preco: 99.9,
+    imagens: ['imagens/Lingerie/pluz1.webp', 'imagens/Lingerie/pluz2.webp'],
     categoria: 'Lingerie'
   },
   {
@@ -185,14 +199,14 @@ const PRODUTOS = [
     id: 'lingerie-hl717-pink',
     nome: 'Lingerie Pink',
     preco: 94.9,
-    imagem: 'imagens/Lingerie/HL717-U-Pink_1.webp',
+    imagem: 'imagens/Lingerie/HL717-U-Pink_1-removebg-preview.png',
     categoria: 'Lingerie'
   },
   {
     id: 'lingerie-hl717-preto',
     nome: 'Lingerie Preto HL717',
     preco: 94.9,
-    imagem: 'imagens/Lingerie/HL717-U-Preto_2.webp',
+    imagem: 'imagens/Lingerie/HL717-U-Preto_2-removebg-preview.png',
     categoria: 'Lingerie'
   },
   {
