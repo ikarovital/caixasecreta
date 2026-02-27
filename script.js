@@ -154,20 +154,6 @@ const PRODUTOS = [
     categoria: 'Lingerie'
   },
   {
-    id: 'lingerie-dg5005-delicate',
-    nome: 'Lingerie Delicate',
-    preco: 89.9,
-    imagem: 'imagens/Lingerie/DG5005-P-Delicate_2.webp',
-    categoria: 'Lingerie'
-  },
-  {
-    id: 'lingerie-dg5005-marinho',
-    nome: 'Lingerie Marinho',
-    preco: 89.9,
-    imagem: 'imagens/Lingerie/DG5005-P-Marinho_1.webp',
-    categoria: 'Lingerie'
-  },
-  {
     id: 'lingerie-hl074-rosa',
     nome: 'Lingerie Rosa Claro com Branco',
     preco: 79.9,
