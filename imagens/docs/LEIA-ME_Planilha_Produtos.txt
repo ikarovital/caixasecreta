@@ -1,0 +1,41 @@
+FORMATO DA PLANILHA_PRODUTOS.xlsx
+==================================
+
+Use a primeira linha como cabeçalho. Colunas (podem ser nessa ordem):
+
+  id          - Obrigatório. Identificador único (ex: 001, 002 ou vibrador-pincel).
+               O site e as imagens usam esse id para identificar o produto. Valores
+               numéricos são normalizados (1 vira 001). O que você colocar aqui
+               atualiza nome, preço, categoria e imagens no site.
+
+  nome        - Nome do produto exibido no site (ex: "Vibrador em Formato de Pincel...").
+
+  preco       - Preço (coluna pode se chamar "preco" ou "Preço"). Aceita: 30 / 30,00 / R$ 30,00.
+
+  categoria   - Uma das categorias do site: Vibradores | Comesticos | Fetiche_Sado | Lingerie.
+               Define em qual aba o produto aparece.
+
+  imagem      - Caminho da imagem principal (ex: imagens/Vibradores/arquivo.png).
+               Se o produto tiver frente e costas, use esta coluna para a imagem da FRENTE.
+
+  imagem_costa - (Opcional) Para lingerie ou produtos com frente e costas: caminho da imagem
+               das costas (ex: imagens/Lingerie/parte2.webp). Se preenchido, o site exibe
+               as duas imagens lado a lado.
+
+Regras:
+- O id é a chave: o site localiza o produto pelo id (na planilha e nas imagens) e
+  atualiza nome, preço, categoria e imagens com o que você alimentar na planilha.
+- Produtos novos (id que não existe no código) entram no site ao preencher id, nome,
+  preço, categoria e pelo menos a coluna imagem (ou imagem_costa para frente e costas).
+- Salve a planilha em: imagens/docs/Planilha_Produtos.xlsx (feche o Excel antes de rodar o script).
+
+Atualização automática:
+- No seu PC: rode  npm run watch-planilha  e deixe aberto. Toda vez que você salvar
+  a planilha, o dados/produtos.json é gerado de novo; ao recarregar o site, os dados
+  aparecem atualizados.
+- No GitHub: ao dar push na planilha (ou em arquivos da pasta imagens/docs), a
+  automação gera o JSON e atualiza o repositório; o site (ex.: GitHub Pages) passa
+  a exibir os dados novos sozinho.
+- Manual:  npm run atualizar-produtos  gera dados/produtos.json na hora.
+- Coluna Imagem vazia: produtos que já existem no site mantêm a imagem atual; novos
+  só aparecem com foto se você preencher o caminho (ex: imagens/Vibradores/001 - Nome.png).

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrinho – Caixa Secreta</title>
+  <meta name="description" content="Seu carrinho de compras na Caixa Secreta. Finalize seu pedido com frete e desconto no Pix.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@600;700&family=Nunito:wght@400;600;700&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html#inicio" class="logo">
+        <img src="imagens/logo.jpg" alt="" class="logo-img">
+        <div class="logo-texto">
+          <h1 class="logo-nome">CAIXA SECRETA</h1>
+          <p class="slogan">Descubra seu desejo oculto</p>
+        </div>
+      </a>
+      <nav class="nav" aria-label="Menu principal">
+        <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false"><span class="bar"></span></button>
+        <ul class="nav-list">
+          <li><a href="index.html#promo-relampago">Promoção Relâmpago</a></li>
+          <li><a href="index.html#mais-vendidos">Mais vendidos</a></li>
+          <li><a href="index.html#catalogo">Ofertas</a></li>
+          <li><a href="carrinho.html" class="nav-carrinho-link">Carrinho (<span class="nav-carrinho-count" id="nav-carrinho-count" aria-hidden="true">0</span>)</a></li>
+          <li><a href="index.html#frete">Frete e Condições</a></li>
+          <li><a href="index.html#lancamento">Lançamento</a></li>
+          <li><a href="termos.html">Termos e Condições</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section carrinho-section">
+    <div class="container">
+      <h1 class="section-title">Carrinho</h1>
+      <div class="carrinho-content">
+        <div class="carrinho-lista" id="carrinho-lista"></div>
+        <div class="carrinho-resumo" id="carrinho-resumo">
+          <p class="carrinho-vazio" id="carrinho-vazio">Seu carrinho está vazio. <a href="index.html#catalogo">Ver ofertas</a></p>
+          <div class="carrinho-total" id="carrinho-total-wrap" hidden>
+            <p><strong>Subtotal:</strong> <span id="carrinho-subtotal">R$ 0,00</span></p>
+            <p><strong>Frete:</strong> <span id="carrinho-frete">Calculado no checkout</span></p>
+            <p><strong>Total:</strong> <span id="carrinho-total">R$ 0,00</span></p>
+            <button type="button" class="btn btn-whatsapp" id="btn-finalizar-whatsapp">Finalizar pedido</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-whatsapp">WhatsApp – (11) 91853-5361</p>
+      <p class="footer-brand">Caixa Secreta</p>
+      <p class="footer-links"><a href="termos.html">Termos e Condições</a> · <a href="index.html">Voltar à loja</a></p>
+    </div>
+  </footer>
+
+  <!-- Modal checkout: cadastro antes do WhatsApp -->
+  <div class="modal-overlay modal-checkout-overlay" id="modal-checkout" aria-hidden="true">
+    <div class="modal-checkout" role="dialog" aria-labelledby="modal-checkout-titulo" aria-modal="true">
+      <button type="button" class="modal-fechar" id="modal-checkout-fechar" aria-label="Fechar">&times;</button>
+      <h2 class="modal-titulo" id="modal-checkout-titulo">Finalizar pedido</h2>
+      <p class="modal-desc">Preencha seus dados e informe o CEP para calcular o frete.</p>
+
+      <form id="form-checkout" class="form-finalizar form-checkout" novalidate>
+        <label for="cadastro-nome">Nome completo *</label>
+        <input type="text" id="cadastro-nome" name="nome" required placeholder="Seu nome" autocomplete="name">
+        <p class="form-msg form-erro" id="checkout-erro-nome" aria-live="polite"></p>
+
+        <label for="cadastro-telefone">WhatsApp *</label>
+        <input type="tel" id="cadastro-telefone" name="telefone" required placeholder="(11) 99999-9999" maxlength="16" autocomplete="tel">
+        <p class="form-msg form-erro" id="checkout-erro-telefone" aria-live="polite"></p>
+
+        <label for="cadastro-cep">CEP *</label>
+        <div class="input-cep-wrap">
+          <input type="text" id="cadastro-cep" name="cep" required placeholder="00000-000" maxlength="9" autocomplete="postal-code">
+          <button type="button" class="btn btn-calcular-frete" id="btn-calcular-frete">Calcular frete</button>
+        </div>
+        <p class="form-msg" id="cep-msg"></p>
+        <p class="form-endereco" id="cep-endereco"></p>
+
+        <div class="resumo-frete" id="resumo-frete">
+          <p><strong>Subtotal:</strong> <span id="modal-subtotal">R$ 0,00</span></p>
+          <p><strong>Frete:</strong> <span id="modal-frete">–</span></p>
+          <p class="resumo-total"><strong>Total:</strong> <span id="modal-total">R$ 0,00</span></p>
+        </div>
+
+        <fieldset class="forma-pagamento">
+          <legend>Forma de pagamento *</legend>
+          <label class="radio-pagamento">
+            <input type="radio" name="pagamento" value="Pix" required>
+            <span>Pix (5% de desconto)</span>
+          </label>
+          <label class="radio-pagamento">
+            <input type="radio" name="pagamento" value="Cartão de crédito">
+            <span>Cartão de crédito</span>
+          </label>
+        </fieldset>
+
+        <button type="submit" class="btn btn-confirmar-whatsapp btn-confirmar-pedido" id="btn-confirmar-pedido">
+          <span class="btn-confirmar-texto">Confirmar pedido</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,9 +1,22 @@
 /**
  * Caixa Secreta – Catálogo e carrinho com finalização via WhatsApp
  * Número WhatsApp: 5511918535361
+ *
+ * ESTRUTURA DO SCRIPT:
+ * 1. Dados (PRODUTOS, PRODUTOS_PROMO, constantes)
+ * 2. Estado (carrinho, categoria, ordenação, busca, filtros)
+ * 3. Formatação e DOM
+ * 4. Categorias e abas
+ * 5. Procuras (mais vendidos)
+ * 6. Produtos (filtros, ordenação, cards, busca, mais vendidos)
+ * 7. Carrinho (CRUD, contador header, animação)
+ * 8. Modal (frete, Pix, WhatsApp)
+ * 9. Promoção relâmpago
+ * 10. Menu móvel
+ * 11. Inicialização e planilha
  */
 
-// ========== DADOS DOS PRODUTOS ==========
+// ========== 1. DADOS DOS PRODUTOS ==========
 // Edite aqui para adicionar ou alterar produtos. Use imagens da pasta imagens/
 const PRODUTOS = [
   {
@@ -70,10 +83,10 @@ const PRODUTOS = [
     categoria: 'Vibradores'
   },
   {
-    id: 'ponto-g-golfinho',
+    id: '001',
     nome: 'Vibrador Ponto G em Formato de Golfinho em ABS',
-    preco: 89.9,
-    imagem: 'imagens/Vibradores/Vibrador Ponto G em Formato de Golfinho em ABS.png',
+    preco: 30,
+    imagem: 'imagens/Vibradores/001 - Vibrador Ponto G em Formato de Golfinho em ABS.png',
     categoria: 'Vibradores'
   },
   {
@@ -212,21 +225,22 @@ const PRODUTOS = [
 ];
 
 const WHATSAPP_NUMERO = '5511918535361';
+const MOSTRAR_PROMO_RELAMPAGO = false;
 
 // ========== PROMOÇÃO RELÂMPAGO ==========
 // Data/hora em que a promoção termina (edite aqui: ano, mês-1, dia, hora, min, seg)
 const PROMO_FIM = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 PROMO_FIM.setHours(23, 59, 59, 999);
 
-// Produtos da promoção: coloque as imagens em imagens/promocao relampago/ e adicione aqui
-const PRODUTOS_PROMO = [
-  // Exemplo (descomente e edite quando tiver imagens):
-  // { id: 'promo-1', nome: 'Nome do produto', imagem: 'imagens/promocao relampago/sua-imagem.png', precoDe: 50, precoPix: 37.50, descontoPix: 25, parcelas: '10x de R$ 3,75 sem juros' }
-];
+// Produtos da promoção (carregados automaticamente via planilha_ofertas.csv)
+let PRODUTOS_PROMO = [];
 
 // ========== ESTADO ==========
 let carrinho = JSON.parse(localStorage.getItem('caixasecreta_carrinho')) || [];
 let categoriaAtiva = 'todos';
+let ordenacaoAtiva = localStorage.getItem('caixasecreta_ordenacao') || 'mais_vendidos';
+let buscaTexto = '';
+let ultimoAdicionadoId = null;
 
 // ========== FORMATAÇÃO ==========
 function formatarPreco(valor) {
@@ -243,18 +257,31 @@ const carrinhoSubtotal = document.getElementById('carrinho-subtotal');
 const carrinhoTotal = document.getElementById('carrinho-total');
 const btnFinalizarWhatsApp = document.getElementById('btn-finalizar-whatsapp');
 
-// Frete: compras >= 120 = grátis. Abaixo: SP = R$ 15, demais = R$ 25
+// Frete: compras >= 120 = grátis para SP. Valor por região/UF (em R$)
 const FRETE_MINIMO_GRATIS = 120;
-const FRETE_SP = 15;
-const FRETE_OUTROS = 25;
+const FRETE_POR_UF = {
+  SP: 15, RJ: 18, MG: 18, ES: 18,
+  PR: 20, SC: 20, RS: 20,
+  DF: 22, GO: 22, MT: 22, MS: 22,
+  BA: 24, CE: 24, PE: 24, RN: 24, PB: 24, AL: 24, SE: 24, MA: 24, PI: 24,
+  AC: 26, AM: 26, AP: 26, PA: 26, RO: 26, RR: 26, TO: 26
+};
+const FRETE_PADRAO = 25; // UF não mapeada
+const DESCONTO_PIX = 0.05; // 5%
 
 // ========== CATEGORIAS ==========
 function obterCategorias() {
-  const cats = new Set(PRODUTOS.map(p => p.categoria));
-  return ['todos', ...Array.from(cats)];
+  const base = ['Vibradores', 'Comesticos', 'Fetiche_Sado', 'Lingerie', 'Acessorios'];
+  const cats = new Set(PRODUTOS.map(function (p) { return p.categoria; }));
+  const lista = base.slice();
+  cats.forEach(function (c) {
+    if (c && lista.indexOf(c) < 0) lista.push(c);
+  });
+  return ['todos', ...lista];
 }
 
 function renderizarAbas() {
+  if (!categoriaTabs) return;
   const categorias = obterCategorias();
   const labels = { todos: 'Todos', Vibradores: 'Vibradores', Lingerie: 'Lingerie', Acessorios: 'Acessórios', 'Linha Premium': 'Linha Premium', Fetiche_Sado: 'Fetiche & Sado', Comesticos: 'Cosméticos', Comestiveis: 'Comestíveis' };
   categoriaTabs.innerHTML = categorias.map(cat => `
@@ -276,35 +303,158 @@ function renderizarAbas() {
   if (primeiro) primeiro.classList.add('ativo');
 }
 
+// ========== PROCURAS (mais procurado) ==========
+function getProcuras() {
+  try {
+    return JSON.parse(localStorage.getItem('caixasecreta_procuras')) || {};
+  } catch (e) { return {}; }
+}
+
+function incrementarProcura(id) {
+  const p = getProcuras();
+  p[id] = (p[id] || 0) + 1;
+  localStorage.setItem('caixasecreta_procuras', JSON.stringify(p));
+}
+
 // ========== PRODUTOS ==========
 function produtosFiltrados() {
-  if (categoriaAtiva === 'todos') return PRODUTOS;
-  return PRODUTOS.filter(p => p.categoria === categoriaAtiva);
+  let lista = categoriaAtiva === 'todos' ? PRODUTOS.slice() : PRODUTOS.filter(p => p.categoria === categoriaAtiva);
+  if (buscaTexto) {
+    const termo = buscaTexto.trim().toLowerCase();
+    lista = lista.filter(p =>
+      (p.nome && p.nome.toLowerCase().indexOf(termo) >= 0) ||
+      (p.categoria && p.categoria.toLowerCase().indexOf(termo) >= 0)
+    );
+  }
+  return lista;
+}
+
+function precoNumerico(produto) {
+  const p = produto.preco;
+  if (typeof p === 'number' && !Number.isNaN(p)) return p;
+  const n = parseFloat(String(p).replace(',', '.'));
+  return Number.isNaN(n) ? 0 : n;
+}
+
+function ordenarProdutos(lista) {
+  const procuras = getProcuras();
+  const copia = lista.slice();
+  switch (ordenacaoAtiva) {
+    case 'menor_preco':
+      return copia.sort((a, b) => precoNumerico(a) - precoNumerico(b));
+    case 'maior_preco':
+      return copia.sort((a, b) => precoNumerico(b) - precoNumerico(a));
+    case 'mais_vendidos':
+      return copia.sort((a, b) => (procuras[b.id] || 0) - (procuras[a.id] || 0) || precoNumerico(a) - precoNumerico(b));
+    case 'data_lancamento':
+      return copia.sort((a, b) => PRODUTOS.indexOf(a) - PRODUTOS.indexOf(b));
+    case 'melhor_desconto':
+      return copia.sort((a, b) => (procuras[b.id] || 0) - (procuras[a.id] || 0) || precoNumerico(a) - precoNumerico(b));
+    default:
+      return copia.sort((a, b) => (procuras[b.id] || 0) - (procuras[a.id] || 0) || precoNumerico(a) - precoNumerico(b));
+  }
+}
+
+function urlImagem(src) {
+  try { return encodeURI(src); } catch (e) { return src; }
+}
+
+function getTopMaisVendidosIds(n) {
+  const procuras = getProcuras();
+  return PRODUTOS.map(p => ({ id: p.id, count: procuras[p.id] || 0 }))
+    .sort((a, b) => b.count - a.count)
+    .filter(x => x.count > 0)
+    .slice(0, n)
+    .map(x => x.id);
+}
+
+function montarCardProduto(p, opts) {
+  opts = opts || {};
+  const fallbackPadrao = fallbackImagemGenericoCategoria(p.categoria);
+  const imgs = (p.imagens && p.imagens.length ? p.imagens : [p.imagem]).filter(function (src) { return src; });
+  const imgHtml = imgs.length ? imgs.map((src, i) =>
+    '<img src="' + urlImagem(src) + '" data-fallback="' + urlImagem(fallbackPadrao) + '" alt="' + (p.nome + ' ' + (i === 0 ? '(frente)' : '(costas)')) + '" loading="lazy" decoding="async" onerror="if(this.dataset.fallback&&this.dataset.fallback!==this.getAttribute(\'src\')){this.setAttribute(\'src\',this.dataset.fallback);return;}this.style.display=\'none\';this.parentElement.style.background=\'var(--fundo)\'">'
+  ).join('') : '<div class="produto-img-placeholder"></div>';
+  const topIds = opts.topMaisVendidosIds || [];
+  const selos = [];
+  if (p.maisVendido || topIds.indexOf(p.id) >= 0) selos.push('<span class="produto-selo mais-vendido">Mais vendido</span>');
+  if (p.desconto != null && p.desconto > 0) selos.push('<span class="produto-selo desconto">' + p.desconto + '% OFF</span>');
+  const selosHtml = selos.length ? '<div class="produto-selos">' + selos.join('') + '</div>' : '';
+  const msgWhatsApp = encodeURIComponent('Olá! Gostaria de mais informações sobre: ' + p.nome);
+  const linkWhatsApp = 'https://wa.me/' + WHATSAPP_NUMERO + '?text=' + msgWhatsApp;
+  return (
+    '<article class="produto-card" data-id="' + p.id + '">' +
+      selosHtml +
+      '<div class="produto-img-wrap ' + (imgs.length > 1 ? 'produto-img-wrap--dupla' : '') + '">' + imgHtml + '</div>' +
+      '<div class="produto-info">' +
+        '<h3 class="produto-nome">' + p.nome + '</h3>' +
+        '<p class="produto-preco">' + formatarPreco(p.preco) + '</p>' +
+        '<div class="produto-botoes">' +
+          '<button type="button" class="btn btn-carrinho" data-id="' + p.id + '">Adicionar ao carrinho</button>' +
+          '<a href="' + linkWhatsApp + '" target="_blank" rel="noopener" class="btn btn-whatsapp-card">WhatsApp</a>' +
+        '</div>' +
+      '</div>' +
+    '</article>'
+  );
 }
 
 function renderizarProdutos() {
-  const lista = produtosFiltrados();
-  produtosGrid.innerHTML = lista.map(p => {
-    const imgs = p.imagens && p.imagens.length ? p.imagens : [p.imagem];
-    const imgHtml = imgs.map((src, i) =>
-      `<img src="${src}" alt="${p.nome} ${i === 0 ? '(frente)' : '(costas)'}" loading="lazy" onerror="this.parentElement.style.background='var(--fundo)'">`
-    ).join('');
-    return `
-    <article class="produto-card" data-id="${p.id}">
-      <div class="produto-img-wrap ${imgs.length > 1 ? 'produto-img-wrap--dupla' : ''}">
-        ${imgHtml}
-      </div>
-      <div class="produto-info">
-        <h3 class="produto-nome">${p.nome}</h3>
-        <p class="produto-preco">${formatarPreco(p.preco)}</p>
-        <button type="button" class="btn btn-carrinho" data-id="${p.id}">Adicionar ao carrinho</button>
-      </div>
-    </article>
-  `;
-  }).join('');
+  if (!produtosGrid) return;
+  const topIds = getTopMaisVendidosIds(5);
+  const lista = ordenarProdutos(produtosFiltrados());
+  produtosGrid.innerHTML = lista.map(p => montarCardProduto(p, { topMaisVendidosIds: topIds })).join('');
 
   produtosGrid.querySelectorAll('.btn-carrinho').forEach(btn => {
     btn.addEventListener('click', () => adicionarAoCarrinho(btn.dataset.id));
+  });
+}
+
+function renderizarMaisVendidos() {
+  const grid = document.getElementById('mais-vendidos-grid');
+  if (!grid) return;
+  const topIds = getTopMaisVendidosIds(6);
+  if (topIds.length === 0) {
+    grid.innerHTML = '<p class="mais-vendidos-vazio">Nenhuma compra ainda. Seja o primeiro a adicionar ao carrinho!</p>';
+    return;
+  }
+  const produtos = topIds.map(id => PRODUTOS.find(p => p.id === id)).filter(Boolean);
+  grid.innerHTML = produtos.map(p => montarCardProduto(p, { topMaisVendidosIds: topIds })).join('');
+  grid.querySelectorAll('.btn-carrinho').forEach(btn => {
+    btn.addEventListener('click', () => adicionarAoCarrinho(btn.dataset.id));
+  });
+}
+
+function soAceitaTextoBusca(val) {
+  return String(val).replace(/[^a-zA-ZáàâãéèêíìîóòôõúùûçÁÀÂÃÉÈÊÍÌÎÓÒÔÕÚÙÛÇ\s]/g, '').trim();
+}
+
+function configurarBusca() {
+  const input = document.getElementById('busca-produtos');
+  const msgEl = document.getElementById('busca-msg');
+  if (!input) return;
+  input.addEventListener('input', function () {
+    var val = this.value;
+    var filtrado = soAceitaTextoBusca(val);
+    if (val !== filtrado) {
+      this.value = filtrado;
+      if (msgEl) { msgEl.textContent = 'Use apenas letras na busca.'; msgEl.className = 'busca-msg busca-msg-aviso'; }
+    } else {
+      if (msgEl) { msgEl.textContent = ''; msgEl.className = 'busca-msg'; }
+    }
+    buscaTexto = filtrado;
+    renderizarProdutos();
+  });
+  input.addEventListener('paste', function (e) {
+    setTimeout(function () {
+      var val = input.value;
+      var filtrado = soAceitaTextoBusca(val);
+      if (val !== filtrado) {
+        input.value = filtrado;
+        if (msgEl) { msgEl.textContent = 'Use apenas letras na busca.'; msgEl.className = 'busca-msg busca-msg-aviso'; }
+      }
+      buscaTexto = filtrado;
+      renderizarProdutos();
+    }, 0);
   });
 }
 
@@ -312,12 +462,26 @@ function renderizarProdutos() {
 function adicionarAoCarrinho(id) {
   const produto = PRODUTOS.find(p => p.id === id);
   if (!produto) return;
+  incrementarProcura(id);
+  ultimoAdicionadoId = id;
   const img = (produto.imagens && produto.imagens[0]) || produto.imagem;
   const item = carrinho.find(i => i.id === id);
   if (item) item.quantidade += 1;
   else carrinho.push({ id: produto.id, nome: produto.nome, preco: produto.preco, imagem: img, quantidade: 1 });
   salvarCarrinho();
   renderizarCarrinho();
+  renderizarMaisVendidos();
+  updateContadorCarrinho();
+}
+
+function updateContadorCarrinho() {
+  const el = document.getElementById('nav-carrinho-count');
+  if (!el) return;
+  const total = carrinho.reduce((acc, i) => acc + i.quantidade, 0);
+  el.textContent = total;
+  el.classList.remove('pulse');
+  el.offsetHeight;
+  el.classList.add('pulse');
 }
 
 function removerDoCarrinho(id) {
@@ -346,23 +510,27 @@ function totalCarrinho() {
 }
 
 function renderizarCarrinho() {
+  if (!carrinhoLista) return;
   carrinhoLista.innerHTML = '';
   if (carrinho.length === 0) {
-    carrinhoVazio.hidden = false;
-    carrinhoTotalWrap.hidden = true;
+    if (carrinhoVazio) carrinhoVazio.hidden = false;
+    if (carrinhoTotalWrap) carrinhoTotalWrap.hidden = true;
     return;
   }
-  carrinhoVazio.hidden = true;
-  carrinhoTotalWrap.hidden = false;
+  if (carrinhoVazio) carrinhoVazio.hidden = true;
+  if (carrinhoTotalWrap) carrinhoTotalWrap.hidden = false;
   const subtotal = totalCarrinho();
   if (carrinhoSubtotal) carrinhoSubtotal.textContent = formatarPreco(subtotal);
   if (carrinhoTotal) carrinhoTotal.textContent = formatarPreco(subtotal);
+  var freteEl = document.getElementById('carrinho-frete');
+  if (freteEl) freteEl.textContent = 'Calculado no checkout';
 
   carrinho.forEach(item => {
     const div = document.createElement('div');
-    div.className = 'carrinho-item';
+    div.className = 'carrinho-item' + (ultimoAdicionadoId === item.id ? ' adicionado' : '');
+    if (ultimoAdicionadoId === item.id) ultimoAdicionadoId = null;
     div.innerHTML = `
-      <img class="carrinho-item-img" src="${item.imagem}" alt="" onerror="this.style.display='none'">
+      <img class="carrinho-item-img" src="${urlImagem(item.imagem)}" alt="" onerror="this.style.display='none'">
       <div class="carrinho-item-detalhes">
         <p class="carrinho-item-nome">${item.nome}</p>
         <p class="carrinho-item-preco">${formatarPreco(item.preco)} un.</p>
@@ -387,12 +555,12 @@ function renderizarCarrinho() {
   });
 }
 
-// ========== MODAL CADASTRO + FRETE + WHATSAPP ==========
+// ========== MODAL CHECKOUT (Cadastro + Frete + WhatsApp) ==========
 let freteCalculado = null;
 let enderecoCep = null;
 
-const modalFinalizar = document.getElementById('modal-finalizar');
-const formFinalizar = document.getElementById('form-finalizar');
+const modalCheckout = document.getElementById('modal-checkout');
+const formCheckout = document.getElementById('form-checkout');
 const cadastroNome = document.getElementById('cadastro-nome');
 const cadastroTelefone = document.getElementById('cadastro-telefone');
 const cadastroCep = document.getElementById('cadastro-cep');
@@ -403,33 +571,84 @@ const resumoFrete = document.getElementById('resumo-frete');
 const modalSubtotal = document.getElementById('modal-subtotal');
 const modalFrete = document.getElementById('modal-frete');
 const modalTotal = document.getElementById('modal-total');
+const btnConfirmarPedido = document.getElementById('btn-confirmar-pedido');
 
-function abrirModalFinalizar() {
+function salvarCliente(nome, whatsapp, cep) {
+  try {
+    localStorage.setItem('cliente', JSON.stringify({ nome: nome, whatsapp: whatsapp, cep: cep }));
+  } catch (e) {}
+}
+
+function obterClienteSalvo() {
+  try {
+    var s = localStorage.getItem('cliente');
+    return s ? JSON.parse(s) : null;
+  } catch (e) { return null; }
+}
+
+function abrirCheckout() {
   if (carrinho.length === 0) return;
   freteCalculado = null;
   enderecoCep = null;
   if (modalSubtotal) modalSubtotal.textContent = formatarPreco(totalCarrinho());
-  if (resumoFrete) resumoFrete.hidden = true;
+  if (resumoFrete) resumoFrete.hidden = false;
+  if (modalFrete) modalFrete.textContent = '–';
   if (cepMsg) { cepMsg.textContent = ''; cepMsg.className = 'form-msg'; }
   if (cepEndereco) cepEndereco.textContent = '';
-  if (formFinalizar) formFinalizar.reset();
-  if (modalFinalizar) {
-    modalFinalizar.classList.add('ativo');
-    modalFinalizar.setAttribute('aria-hidden', 'false');
+  limparErrosCheckout();
+  var cliente = obterClienteSalvo();
+  if (formCheckout) {
+    formCheckout.reset();
+    if (cliente) {
+      if (cadastroNome && cliente.nome) cadastroNome.value = cliente.nome;
+      if (cadastroTelefone && cliente.whatsapp) cadastroTelefone.value = formatarTelefone(cliente.whatsapp);
+      if (cadastroCep && cliente.cep) cadastroCep.value = formatarCep(cliente.cep);
+    }
+    var pixRadio = formCheckout.querySelector('input[name="pagamento"][value="Pix"]');
+    if (pixRadio) pixRadio.checked = true;
+  }
+  atualizarTotalModal();
+  setConfirmarPedidoLoading(false);
+  if (modalCheckout) {
+    modalCheckout.classList.add('ativo');
+    modalCheckout.setAttribute('aria-hidden', 'false');
   }
 }
 
-function fecharModalFinalizar() {
-  if (modalFinalizar) {
-    modalFinalizar.classList.remove('ativo');
-    modalFinalizar.setAttribute('aria-hidden', 'true');
+function fecharCheckout() {
+  if (modalCheckout) {
+    modalCheckout.classList.remove('ativo');
+    modalCheckout.setAttribute('aria-hidden', 'true');
   }
+  setConfirmarPedidoLoading(false);
+}
+
+function setConfirmarPedidoLoading(loading) {
+  if (!btnConfirmarPedido) return;
+  var texto = btnConfirmarPedido.querySelector('.btn-confirmar-texto');
+  if (texto) texto.textContent = loading ? 'Enviando...' : 'Confirmar pedido';
+  btnConfirmarPedido.disabled = loading;
+}
+
+function limparErrosCheckout() {
+  ['checkout-erro-nome', 'checkout-erro-telefone'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = '';
+  });
+}
+
+function formatarTelefone(v) {
+  var n = String(v).replace(/\D/g, '');
+  if (n.length <= 2) return n ? '(' + n : '';
+  if (n.length <= 7) return '(' + n.slice(0, 2) + ') ' + n.slice(2);
+  return '(' + n.slice(0, 2) + ') ' + n.slice(2, 7) + '-' + n.slice(7, 11);
 }
 
 function calcularFreteValor(uf) {
   const subtotal = totalCarrinho();
   if (subtotal >= FRETE_MINIMO_GRATIS) return 0;
-  return uf === 'SP' ? FRETE_SP : FRETE_OUTROS;
+  const valor = FRETE_POR_UF[uf] != null ? FRETE_POR_UF[uf] : FRETE_PADRAO;
+  return valor;
 }
 
 function formatarCep(v) {
@@ -462,84 +681,154 @@ function buscarCep() {
       freteCalculado = calcularFreteValor(uf);
       if (resumoFrete) resumoFrete.hidden = false;
       if (modalFrete) modalFrete.textContent = freteCalculado === 0 ? 'Grátis' : formatarPreco(freteCalculado);
-      if (modalTotal) modalTotal.textContent = formatarPreco(totalCarrinho() + freteCalculado);
+      atualizarTotalModal();
     })
     .catch(() => {
       if (cepMsg) { cepMsg.textContent = 'Erro ao buscar CEP. Tente de novo.'; cepMsg.className = 'form-msg erro'; }
     });
 }
 
-function montarMensagemPedidoCompleta(nome, telefone, pagamento) {
-  const subtotal = totalCarrinho();
-  const frete = freteCalculado !== null ? freteCalculado : 0;
-  const total = subtotal + frete;
-  const linhas = ['*Pedido Caixa Secreta*', '', `*Nome:* ${nome}`, `*WhatsApp:* ${telefone}`];
-  if (enderecoCep) {
-    linhas.push(`*Endereço:* ${enderecoCep.logradouro || ''} ${enderecoCep.bairro || ''}, ${enderecoCep.localidade || ''} - ${enderecoCep.uf || ''}, CEP ${cadastroCep.value}`);
-  }
-  linhas.push('');
-  carrinho.forEach(i => {
-    linhas.push(`• ${i.nome}`);
-    linhas.push(`  ${i.quantidade}x ${formatarPreco(i.preco)}`);
-  });
-  linhas.push('');
-  linhas.push(`*Subtotal:* ${formatarPreco(subtotal)}`);
-  linhas.push(`*Frete:* ${frete === 0 ? 'Grátis' : formatarPreco(frete)}`);
-  linhas.push(`*Total:* ${formatarPreco(total)}`);
-  linhas.push(`*Forma de pagamento:* ${pagamento}`);
-  return encodeURIComponent(linhas.join('\n'));
+function totalAPagar(subtotal, frete, ehPix) {
+  const bruto = subtotal + (frete !== null ? frete : 0);
+  return ehPix ? bruto * (1 - DESCONTO_PIX) : bruto;
 }
 
-btnFinalizarWhatsApp.addEventListener('click', (e) => {
-  e.preventDefault();
-  abrirModalFinalizar();
-});
+function atualizarTotalModal() {
+  if (!modalTotal) return;
+  const subtotal = totalCarrinho();
+  const frete = freteCalculado !== null ? freteCalculado : 0;
+  const ehPix = formCheckout && formCheckout.querySelector('input[name="pagamento"]:checked')?.value === 'Pix';
+  const total = totalAPagar(subtotal, frete, ehPix);
+  modalTotal.textContent = formatarPreco(total) + (ehPix ? ' (5% OFF no Pix)' : '');
+}
 
-document.getElementById('modal-fechar').addEventListener('click', fecharModalFinalizar);
-if (modalFinalizar) {
-  modalFinalizar.addEventListener('click', (e) => { if (e.target === modalFinalizar) fecharModalFinalizar(); });
+/** Monta a mensagem do pedido (texto puro). Formato: Pedido - Caixa Secreta, Cliente, WhatsApp, CEP, Produtos, Subtotal, Frete, Desconto Pix (se Pix), Total, Forma de pagamento. */
+function montarMensagemPedido(nome, whatsapp, cep, formaPagamento) {
+  const subtotal = totalCarrinho();
+  const frete = freteCalculado !== null ? freteCalculado : 0;
+  const ehPix = formaPagamento === 'Pix';
+  const totalBruto = subtotal + frete;
+  const descontoPix = ehPix ? totalBruto * DESCONTO_PIX : 0;
+  const total = totalBruto - descontoPix;
+
+  var linhas = [
+    'Pedido - Caixa Secreta',
+    '',
+    'Cliente: ' + nome,
+    'WhatsApp: ' + whatsapp,
+    'CEP: ' + (cep || ''),
+    '',
+    'Produtos:',
+    ''
+  ];
+  carrinho.forEach(function (i) {
+    linhas.push(i.quantidade + 'x ' + i.nome + ' - ' + formatarPreco(i.preco));
+  });
+  linhas.push('');
+  linhas.push('Subtotal: ' + formatarPreco(subtotal));
+  linhas.push('Frete: ' + (frete === 0 ? 'Grátis' : formatarPreco(frete)));
+  if (ehPix && descontoPix > 0) {
+    linhas.push('');
+    linhas.push('Desconto Pix: -' + formatarPreco(descontoPix));
+  }
+  linhas.push('');
+  linhas.push('Total: ' + formatarPreco(total));
+  linhas.push('');
+  linhas.push('Forma de pagamento: ' + formaPagamento);
+  return linhas.join('\n');
+}
+
+/** Abre o link do WhatsApp em nova aba com a mensagem codificada. */
+function enviarPedidoWhatsApp(mensagem) {
+  var url = 'https://wa.me/' + WHATSAPP_NUMERO + '?text=' + encodeURIComponent(mensagem);
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+function validarCheckout() {
+  limparErrosCheckout();
+  var ok = true;
+  var nome = cadastroNome ? cadastroNome.value.trim() : '';
+  var telefone = cadastroTelefone ? cadastroTelefone.value.replace(/\D/g, '') : '';
+  var errosNome = document.getElementById('checkout-erro-nome');
+  var errosTelefone = document.getElementById('checkout-erro-telefone');
+  if (!nome) {
+    if (errosNome) { errosNome.textContent = 'Informe o nome completo.'; ok = false; }
+  }
+  if (telefone.length < 10 || telefone.length > 11) {
+    if (errosTelefone) { errosTelefone.textContent = 'Informe um WhatsApp válido (10 ou 11 dígitos).'; ok = false; }
+  }
+  if (freteCalculado === null) {
+    if (cepMsg) { cepMsg.textContent = 'Informe o CEP e clique em Calcular frete.'; cepMsg.className = 'form-msg erro'; ok = false; }
+  }
+  return ok;
+}
+
+if (btnFinalizarWhatsApp) {
+  btnFinalizarWhatsApp.addEventListener('click', function (e) {
+    e.preventDefault();
+    abrirCheckout();
+  });
+}
+
+var btnFecharCheckout = document.getElementById('modal-checkout-fechar');
+if (btnFecharCheckout) btnFecharCheckout.addEventListener('click', fecharCheckout);
+if (modalCheckout) {
+  modalCheckout.addEventListener('click', function (e) {
+    if (e.target === modalCheckout) fecharCheckout();
+  });
 }
 
 if (cadastroCep) {
-  cadastroCep.addEventListener('input', () => { cadastroCep.value = formatarCep(cadastroCep.value); });
+  cadastroCep.addEventListener('input', function () { cadastroCep.value = formatarCep(cadastroCep.value); });
+}
+if (cadastroTelefone) {
+  cadastroTelefone.addEventListener('input', function () {
+    cadastroTelefone.value = formatarTelefone(cadastroTelefone.value);
+  });
 }
 if (btnCalcularFrete) btnCalcularFrete.addEventListener('click', buscarCep);
 
-if (formFinalizar) {
-  formFinalizar.addEventListener('submit', (e) => {
+if (formCheckout) {
+  formCheckout.querySelectorAll('input[name="pagamento"]').forEach(function (radio) {
+    radio.addEventListener('change', atualizarTotalModal);
+  });
+  formCheckout.addEventListener('submit', function (e) {
     e.preventDefault();
     if (carrinho.length === 0) return;
-    const nome = cadastroNome.value.trim();
-    const telefone = cadastroTelefone.value.trim();
-    const pagamento = formFinalizar.querySelector('input[name="pagamento"]:checked');
-    if (!nome || !telefone) {
-      alert('Preencha nome e WhatsApp.');
-      return;
-    }
-    if (freteCalculado === null) {
-      alert('Informe o CEP e clique em Calcular frete.');
-      return;
-    }
-    if (!pagamento) {
-      alert('Escolha a forma de pagamento (Pix ou Cartão de crédito).');
-      return;
-    }
-    const texto = montarMensagemPedidoCompleta(nome, telefone, pagamento.value);
-    const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${texto}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
-    fecharModalFinalizar();
+    if (!validarCheckout()) return;
+    var nome = cadastroNome.value.trim();
+    var whatsapp = cadastroTelefone.value.replace(/\D/g, '');
+    if (whatsapp.length < 10) whatsapp = cadastroTelefone.value;
+    var cep = cadastroCep ? cadastroCep.value.trim() : '';
+    var pagamento = formCheckout.querySelector('input[name="pagamento"]:checked');
+    if (!pagamento) return;
+    salvarCliente(nome, whatsapp, cep);
+    var mensagem = montarMensagemPedido(nome, whatsapp, cep, pagamento.value);
+    setConfirmarPedidoLoading(true);
+    enviarPedidoWhatsApp(mensagem);
+    fecharCheckout();
+    setTimeout(function () { setConfirmarPedidoLoading(false); }, 500);
   });
 }
 
 // ========== PROMOÇÃO RELÂMPAGO: COUNTDOWN E LISTA ==========
+let promoRotacaoIndex = 0;
+let promoRotacaoTimer = null;
+
 function atualizarCountdown() {
+  const elDias = document.getElementById('promo-dias');
+  const elHoras = document.getElementById('promo-horas');
+  const elMin = document.getElementById('promo-min');
+  const elSeg = document.getElementById('promo-seg');
+  if (!elDias || !elHoras || !elMin || !elSeg) return;
+
   const agora = new Date();
   const fim = new Date(PROMO_FIM);
   if (agora >= fim) {
-    document.getElementById('promo-dias').textContent = '00';
-    document.getElementById('promo-horas').textContent = '00';
-    document.getElementById('promo-min').textContent = '00';
-    document.getElementById('promo-seg').textContent = '00';
+    elDias.textContent = '00';
+    elHoras.textContent = '00';
+    elMin.textContent = '00';
+    elSeg.textContent = '00';
     return;
   }
   const diff = fim - agora;
@@ -548,20 +837,57 @@ function atualizarCountdown() {
   const min = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   const seg = Math.floor((diff % (1000 * 60)) / 1000);
   const pad = (n) => String(n).padStart(2, '0');
-  document.getElementById('promo-dias').textContent = pad(dias);
-  document.getElementById('promo-horas').textContent = pad(horas);
-  document.getElementById('promo-min').textContent = pad(min);
-  document.getElementById('promo-seg').textContent = pad(seg);
+  elDias.textContent = pad(dias);
+  elHoras.textContent = pad(horas);
+  elMin.textContent = pad(min);
+  elSeg.textContent = pad(seg);
+}
+
+function qtdItensPromoVisivel() {
+  if (window.innerWidth >= 1024) return 4;
+  return 3;
+}
+
+function obterVitrinePromo() {
+  const total = PRODUTOS_PROMO.length;
+  if (total === 0) return [];
+  const qtd = qtdItensPromoVisivel();
+  if (total <= qtd) return PRODUTOS_PROMO.slice();
+  const inicio = promoRotacaoIndex % total;
+  const lista = [];
+  for (let i = 0; i < qtd; i += 1) {
+    lista.push(PRODUTOS_PROMO[(inicio + i) % total]);
+  }
+  return lista;
+}
+
+function iniciarRotacaoPromo() {
+  if (promoRotacaoTimer) {
+    clearInterval(promoRotacaoTimer);
+    promoRotacaoTimer = null;
+  }
+  const total = PRODUTOS_PROMO.length;
+  const qtd = qtdItensPromoVisivel();
+  if (total <= qtd) return;
+  promoRotacaoTimer = setInterval(function () {
+    promoRotacaoIndex = (promoRotacaoIndex + 1) % total;
+    renderizarPromo();
+  }, 6000);
 }
 
 function renderizarPromo() {
   const el = document.getElementById('promo-produtos');
   if (!el) return;
   if (PRODUTOS_PROMO.length === 0) {
-    el.innerHTML = '<p class="promo-vazio">Em breve: coloque imagens na pasta <strong>imagens/promocao relampago</strong> e adicione os produtos no script.js (PRODUTOS_PROMO).</p>';
+    el.innerHTML = '<p class="promo-vazio">Sem itens em promoção relâmpago no momento. Ative produtos na planilha de ofertas.</p>';
+    if (promoRotacaoTimer) {
+      clearInterval(promoRotacaoTimer);
+      promoRotacaoTimer = null;
+    }
     return;
   }
-  el.innerHTML = PRODUTOS_PROMO.map(p => `
+  const vitrine = obterVitrinePromo();
+  el.innerHTML = vitrine.map(p => `
     <div class="promo-item" data-id="${p.id}">
       <div class="promo-item-img-wrap">
         <img src="${p.imagem}" alt="${p.nome}" onerror="this.parentElement.style.background='var(--fundo)'">
@@ -569,7 +895,7 @@ function renderizarPromo() {
       <div class="promo-item-info">
         <p class="promo-item-nome">${p.nome}</p>
         ${p.descricao ? `<p class="promo-item-desc">${p.descricao}</p>` : ''}
-        ${p.descontoPix ? `<span class="promo-item-badge">${p.descontoPix}% OFF no PIX</span>` : ''}
+        ${p.descontoPix ? `<span class="promo-item-badge">${p.descontoPix}% OFF</span>` : ''}
         <div class="promo-item-precos">
           ${p.precoDe ? `<span class="promo-item-de">De ${formatarPreco(p.precoDe)}</span>` : ''}
           <span class="promo-item-pix">${formatarPreco(p.precoPix)} no pix</span>
@@ -591,6 +917,7 @@ function renderizarPromo() {
       renderizarCarrinho();
     });
   });
+  iniciarRotacaoPromo();
 }
 
 // ========== MENU MÓVEL ==========
@@ -621,10 +948,412 @@ function atualizarTituloOfertas() {
   el.textContent = dias[dia] + ' de ofertas';
 }
 
-atualizarTituloOfertas();
-renderizarAbas();
-renderizarProdutos();
-renderizarCarrinho();
-renderizarPromo();
-atualizarCountdown();
-setInterval(atualizarCountdown, 1000);
+// Normaliza id para comparação (ex.: 1 e "001" batem)
+function normalizarIdSite(val) {
+  if (val == null) return '';
+  const s = String(val).trim();
+  if (/^\d+$/.test(s)) return s.padStart(3, '0');
+  return s;
+}
+
+function normalizarDiaSemana(val) {
+  const s = String(val == null ? '' : val).trim().toLowerCase();
+  const mapa = {
+    segunda: 'SEGUNDA',
+    terca: 'TERCA',
+    terça: 'TERCA',
+    quarta: 'QUARTA',
+    quinta: 'QUINTA',
+    sexta: 'SEXTA',
+    sabado: 'SABADO',
+    sábado: 'SABADO',
+    domingo: 'DOMINGO'
+  };
+  return mapa[s] || String(val == null ? '' : val).trim().toUpperCase();
+}
+
+function diaSemanaHoje() {
+  const dias = ['DOMINGO', 'SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SABADO'];
+  return dias[new Date().getDay()];
+}
+
+function valorBooleano(v) {
+  const s = String(v == null ? '' : v).trim().toLowerCase();
+  return s === '1' || s === 'sim' || s === 'true' || s === 'yes' || s === 'y';
+}
+
+function statusAtivo(v) {
+  const s = String(v == null ? '' : v).trim().toLowerCase();
+  if (!s) return true;
+  return s !== 'inativo' && s !== 'inactive' && s !== '0' && s !== 'false' && s !== 'nao' && s !== 'não';
+}
+
+function parseCsvSemicolon(texto) {
+  const linhas = String(texto || '').split(/\r?\n/).filter(function (l) { return l && l.trim(); });
+  if (linhas.length < 2) return [];
+  const headers = linhas[0].split(';').map(function (h) { return h.trim(); });
+  return linhas.slice(1).map(function (linha) {
+    const cols = linha.split(';');
+    const item = {};
+    headers.forEach(function (h, i) { item[h] = (cols[i] || '').trim(); });
+    return item;
+  });
+}
+
+async function lerTextoComFallbackEncoding(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error('Falha ao carregar: ' + url);
+  const buf = await r.arrayBuffer();
+  const utf8 = new TextDecoder('utf-8').decode(buf);
+  const ruinsUtf8 = (utf8.match(/\uFFFD/g) || []).length;
+  if (ruinsUtf8 === 0) return utf8;
+  const win1252 = new TextDecoder('windows-1252').decode(buf);
+  const ruinsWin = (win1252.match(/\uFFFD/g) || []).length;
+  return ruinsWin < ruinsUtf8 ? win1252 : utf8;
+}
+
+function textoSeguro(v) {
+  return String(v == null ? '' : v).replace(/\uFFFD/g, '').trim();
+}
+
+function parsePrecoPlanilha(v) {
+  if (typeof v === 'number') return v;
+  const n = parseFloat(String(v == null ? '' : v).replace(',', '.'));
+  return Number.isNaN(n) ? 0 : n;
+}
+
+function normalizarCaminhoImagem(caminho) {
+  const src = textoSeguro(caminho);
+  if (!src) return '';
+  if (/^https?:\/\//i.test(src)) return src;
+  const normalizado = src.replace(/\\/g, '/');
+  const idx = normalizado.toLowerCase().indexOf('/imagens/');
+  if (idx >= 0) return normalizado.slice(idx + 1);
+  return normalizado;
+}
+
+const FALLBACK_IMAGEM_VIBRADORES = {
+  '1': 'imagens/Vibradores/001 - Vibrador Ponto G em Formato de Golfinho em ABS.png',
+  '2': 'imagens/Vibradores/Basebal Bat Vibrador com Aparência Realística com 10 Modos Vai e Vem e Vibração.png',
+  '3': 'imagens/Vibradores/Bullet Vibratório com 10 Modos de Vibração Recarregável e Controle por Aplicativo.png',
+  '4': 'imagens/Vibradores/Estimulador Feminino Porquinho com 10 Modos de Ondas de Pressão.png',
+  '5': 'imagens/Vibradores/Lilo Vibrador Varinha Mágica com 10 Modos de Vibrações .png',
+  '6': 'imagens/Vibradores/Lipstick Vibe Vibrador em Formato de Batom Vibração.png',
+  '7': 'imagens/Vibradores/Magesty Vibrador de Calcinha 9 Modos de Pulsação Controle Via APP.png',
+  '8': 'imagens/Vibradores/Mini Toy Vibrador Varinha Mágica com 20 Modos de Vibrações e 8 Níveis e Velocidade.png',
+  '9': 'imagens/Vibradores/Pretty Love Abner Bullet Wireless Via Bluetooth e 12 Modos de Vibração.png',
+  '10': 'imagens/Vibradores/Sophie Vibrador Formato de Rosa com 10 Modos de Vibracao, Vai e Vem e Pulsacao.png',
+  '11': 'imagens/Vibradores/Vibrador Bullet Hot Flowers.png',
+  '12': 'imagens/Vibradores/Vibrador em Formato de pincel com 8 Modos de Vibração.png',
+  '13': 'imagens/Vibradores/Female Vibrator Vibrador Ponto G com 30 Modos de Vibração.png',
+  '14': 'imagens/Vibradores/Vibrador Ponto G com Estimulador de Clitóris Língua com 10 Modos de Vibração e Aquecimento.png',
+  '15': 'imagens/Vibradores/Vibrador Recarregável com Glande e Estimulador Clitoriano Coelho com 12 Modos de Vibração.png'
+};
+
+const FALLBACK_IMAGEM_COMESTICOS = {
+  'kuloko gel dessensibilizante e excitante anal linha brasileirinhos 15g': 'imagens/Comesticos/Kuloko Gel Dessensibilizante e Excitante Anal Linha Brasileirinhos 15g.png',
+  'xana loka gel excitante feminino linha brasileirinhos 15g': 'imagens/Comesticos/Xana Loka Gel Excitante Feminino Linha Brasileirinhos 15g.png',
+  'calcinha comestivel yummy 1 unidade': 'imagens/Comesticos/Calcinha Comestível Yummy 1 Unidade.png',
+  'aromatizante bucal power black ice spray 18ml hot flowers': 'imagens/Comesticos/Aromatizante Bucal Power Black Ice Spray 18ml Hot Flowers.png',
+  'maxx babaloo caneta comestivel bala liquida em gel 20g': 'imagens/Comesticos/Maxx_Babaloo_Caneta_Comestível_Bala_Líquida_em_Gel_20g.png',
+  'karamela tapa sexo comestivel formato coracao': 'imagens/Comesticos/Karamela Tapa Sexo Comestível Formato Coração.png',
+  'gel termico beijavel yummy 15ml': 'imagens/Comesticos/Gel Térmico Beijável Yummy 15ml.png',
+  'sedenta por garganta profunda dessensibilizante oral extra forte 18ml': 'imagens/Comesticos/Sedenta_por_Garganta_Profunda_Dessensibilizante_Oral_Extra_Forte_18ml.png',
+  'gel adstringente sempre virgem 25g': 'imagens/Comesticos/Gel Adstringente Sempre Virgem 25g.png',
+  '50 tons de liberdade bolinha com oleo de massagem corporal esquenta e esfria 3 unidades': 'imagens/Comesticos/50 Tons de Liberdade Bolinha com Óleo de Massagem Corporal Esquenta e Esfria 3 Unidades.png',
+  'uisquenta bolinhas em capsula 3 unidades': 'imagens/Comesticos/Uisquenta Bolinhas em Cápsula 3 Unidades.png',
+  'power honey energia e disposicao suplemento alimentar liquido unissex 1 unidade 10g': 'imagens/Comesticos/Power Honey Energia e Disposição Suplemento Alimentar Liquido Unissex 1 unidade 10g.png',
+  'hot ball xana loka esquenta esfria e vibra': 'imagens/Comesticos/Hot Ball Xana Loka Esquenta Esfria e Vibra.png',
+  'cliv intt dessensibilizante anal 17g': 'imagens/Comesticos/Cliv Intt Dessensibilizante Anal 17g .png',
+  'love lub lapilove lubrificante corporal beijavel 60g': 'imagens/Comesticos/Love Lub LapiLove Lubrificante Corporal Beijável 60g.png',
+  'babasoul sexy hidratante beijavel 280ml': 'imagens/Comesticos/Babasoul Sexy Hidratante Beijável 280ml.png',
+  'vibration gel excitante que vibra power sabor mel 17ml': 'imagens/Comesticos/Vibration Gel Excitante que Vibra Power Sabor Mel 17ml.png',
+  'vibration gel excitante que vibra sabor chiclete 17ml': 'imagens/Comesticos/Vibration Gel Excitante que Vibra Sabor Chiclete 17ml.png',
+  "babalub lubrificante beijavel a base d'agua 50ml": 'imagens/Comesticos/Babalub_Lubrificante_Beijável_à_Base_d_Água_50ml.png',
+  'gel clitoriano aquece pulsa e vibra 17g linha deborah secco': 'imagens/Comesticos/Gel Clitoriano Aquece Pulsa e Vibra 17g Linha Deborah Secco.png',
+  'blow girl gel aromatizante beijavel para virilha 320ml': 'imagens/Comesticos/Blow Girl Gel Aromatizante Beijável Para Virilha 320ml.png',
+  'lis-in gel dessensibilizante anal 30g': 'imagens/Comesticos/LIS-In Gel Dessensibilizante Anal 30g.png'
+};
+
+const FALLBACK_IMAGEM_ACESSORIOS = {
+  'vela beijavel algodao doce hot para massagem 50g': 'imagens/Acessorios/Vela Beijável Algodão Doce Hot para Massagem 50g.png',
+  'fogo da paixao vela de massagem beijavel com glitter 20g': 'imagens/Acessorios/Fogo da Paixão Vela de Massagem Beijável com Glitter 20g.png',
+  'funny egg masturbador masculino formato vagina em cyberskin': 'imagens/Acessorios/Funny Egg Masturbador Masculino Formato Vagina em Cyberskin.png'
+};
+
+const FALLBACK_IMAGEM_COMESTICOS_ID = {
+  'kuloko-gel': 'imagens/Comesticos/Kuloko Gel Dessensibilizante e Excitante Anal Linha Brasileirinhos 15g.png',
+  'xana-loka-gel': 'imagens/Comesticos/Xana Loka Gel Excitante Feminino Linha Brasileirinhos 15g.png',
+  'calcinha-comestivel-yummy': 'imagens/Comesticos/Calcinha Comestível Yummy 1 Unidade.png',
+  'aromatizante-bucal-power-black-ice': 'imagens/Comesticos/Aromatizante Bucal Power Black Ice Spray 18ml Hot Flowers.png',
+  'maxx-babaloo-caneta-a': 'imagens/Comesticos/Maxx_Babaloo_Caneta_Comestível_Bala_Líquida_em_Gel_20g.png',
+  'maxx-babaloo-caneta-b': 'imagens/Comesticos/Maxx_Babaloo_Caneta_Comestível_Bala_Líquida_em_Gel_20g.png',
+  'karamela-tapa-sexo-comestivel': 'imagens/Comesticos/Karamela Tapa Sexo Comestível Formato Coração.png',
+  'gel-termico-beijavel-yummy': 'imagens/Comesticos/Gel Térmico Beijável Yummy 15ml.png',
+  'sedenta-garganta-profunda': 'imagens/Comesticos/Sedenta_por_Garganta_Profunda_Dessensibilizante_Oral_Extra_Forte_18ml.png',
+  'gel-adstringente-sempre-virgem': 'imagens/Comesticos/Gel Adstringente Sempre Virgem 25g.png',
+  '50-tons-liberdade-bolinha': 'imagens/Comesticos/50 Tons de Liberdade Bolinha com Óleo de Massagem Corporal Esquenta e Esfria 3 Unidades.png',
+  'uisquenta-bolinhas-capsula': 'imagens/Comesticos/Uisquenta Bolinhas em Cápsula 3 Unidades.png',
+  'power-honey-10g': 'imagens/Comesticos/Power Honey Energia e Disposição Suplemento Alimentar Liquido Unissex 1 unidade 10g.png',
+  'hot-ball-xana-loka': 'imagens/Comesticos/Hot Ball Xana Loka Esquenta Esfria e Vibra.png',
+  'cliv-intt-dessensibilizante-anal': 'imagens/Comesticos/Cliv Intt Dessensibilizante Anal 17g .png',
+  'love-lub-lapilove': 'imagens/Comesticos/Love Lub LapiLove Lubrificante Corporal Beijável 60g.png',
+  'babasoul-sexy-hidratante': 'imagens/Comesticos/Babasoul Sexy Hidratante Beijável 280ml.png',
+  'vibration-gel-power-mel': 'imagens/Comesticos/Vibration Gel Excitante que Vibra Power Sabor Mel 17ml.png',
+  'vibration-gel-chiclete': 'imagens/Comesticos/Vibration Gel Excitante que Vibra Sabor Chiclete 17ml.png',
+  'babalub-lubrificante-beijavel': 'imagens/Comesticos/Babalub_Lubrificante_Beijável_à_Base_d_Água_50ml.png',
+  'gel-clitoriano-deborah-secco': 'imagens/Comesticos/Gel Clitoriano Aquece Pulsa e Vibra 17g Linha Deborah Secco.png',
+  'blow-girl-virilha-320ml': 'imagens/Comesticos/Blow Girl Gel Aromatizante Beijável Para Virilha 320ml.png',
+  'lis-in-gel-30g': 'imagens/Comesticos/LIS-In Gel Dessensibilizante Anal 30g.png'
+};
+
+const FALLBACK_IMAGEM_ACESSORIOS_ID = {
+  'vela-beijavel-algodao-doce-50g': 'imagens/Acessorios/D_NQ_NP_894200-MLB89127477520_082025-O-removebg-preview.png',
+  'fogo-da-paixao-vela-20g': 'imagens/Acessorios/Fogo_da_Paixão_Vela_de_Massagem_Beijável_com_Glitter_20g-removebg-preview.png',
+  'funny-egg-masturbador': 'imagens/Acessorios/Funny Egg Masturbador Masculino Formato Vagina em Cyberskin.png'
+};
+
+const FALLBACK_CATEGORIA_PADRAO = {
+  Comesticos: 'imagens/Comesticos/Aromatizante Bucal Power Black Ice Spray 18ml Hot Flowers.png',
+  Acessorios: 'imagens/Acessorios/Funny Egg Masturbador Masculino Formato Vagina em Cyberskin.png',
+  Vibradores: 'imagens/Vibradores/001 - Vibrador Ponto G em Formato de Golfinho em ABS.png',
+  Lingerie: 'imagens/Lingerie/HL074-U-Rosa-Claro-com-Branco_1-.webp',
+  Fetiche_Sado: 'imagens/Fetiche_Sado/Chabata.png'
+};
+
+function chaveNomeProduto(v) {
+  return String(v == null ? '' : v)
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9'\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function slugBasico(v) {
+  return chaveNomeProduto(v).replace(/'/g, '').replace(/\s+/g, '-');
+}
+
+function fallbackImagemPorCategoriaEId(categoria, idOriginal, nomeOriginal) {
+  const idSlug = slugBasico(idOriginal);
+  const nomeSlug = slugBasico(nomeOriginal);
+  if (categoria === 'Comesticos') {
+    return FALLBACK_IMAGEM_COMESTICOS_ID[idSlug] ||
+      FALLBACK_IMAGEM_COMESTICOS_ID[nomeSlug] ||
+      FALLBACK_IMAGEM_COMESTICOS[chaveNomeProduto(nomeOriginal)] ||
+      '';
+  }
+  if (categoria === 'Acessorios') {
+    return FALLBACK_IMAGEM_ACESSORIOS_ID[idSlug] ||
+      FALLBACK_IMAGEM_ACESSORIOS_ID[nomeSlug] ||
+      FALLBACK_IMAGEM_ACESSORIOS[chaveNomeProduto(nomeOriginal)] ||
+      '';
+  }
+  return '';
+}
+
+function fallbackImagemGenericoCategoria(categoria) {
+  return FALLBACK_CATEGORIA_PADRAO[categoria] || '';
+}
+
+function normalizarCategoriaProduto(v) {
+  const s = String(v == null ? '' : v).trim().toLowerCase();
+  if (s === 'comesticos') return 'Comesticos';
+  if (s === 'fetiche_sado') return 'Fetiche_Sado';
+  if (s === 'vibradores') return 'Vibradores';
+  if (s === 'lingerie') return 'Lingerie';
+  if (s === 'acessorios' || s === 'acessórios' || s === 'acessorio' || s === 'acessório') return 'Acessorios';
+  return String(v == null ? '' : v).trim() || 'Vibradores';
+}
+
+function aplicarOfertasNosProdutos(ofertas) {
+  const hoje = diaSemanaHoje();
+  const idsOferta = new Set();
+
+  PRODUTOS.forEach(function (p) {
+    if (p.precoBase == null) p.precoBase = precoNumerico(p);
+    p.preco = p.precoBase;
+    if (p.desconto != null) delete p.desconto;
+  });
+
+  (ofertas || []).forEach(function (row) {
+    const ativo = statusAtivo(row.ativo);
+    if (!ativo) return;
+    const tipo = String(row.tipo_oferta || '').trim().toUpperCase();
+    const dia = normalizarDiaSemana(row.dia_semana);
+    const id = normalizarIdSite(row.id_produto);
+    if (!id) return;
+    if (tipo === 'RELAMPAGO') {
+      idsOferta.add(id);
+      return;
+    }
+    if (tipo === 'DIA' && dia === hoje) {
+      idsOferta.add(id);
+    }
+  });
+
+  PRODUTOS.forEach(function (p) {
+    if (!idsOferta.has(normalizarIdSite(p.id))) return;
+    p.desconto = 20;
+    const base = p.precoBase != null ? p.precoBase : precoNumerico(p);
+    p.preco = Number((base * 0.8).toFixed(2));
+  });
+}
+
+function montarProdutosPromoDaPlanilha(ofertas) {
+  const lista = [];
+  (ofertas || []).forEach(function (row) {
+    const ativo = statusAtivo(row.ativo);
+    const tipo = String(row.tipo_oferta || '').trim().toUpperCase();
+    if (!ativo || tipo !== 'RELAMPAGO') return;
+    const id = normalizarIdSite(row.id_produto);
+    if (!id) return;
+    const p = PRODUTOS.find(function (x) { return normalizarIdSite(x.id) === id; });
+    if (!p) return;
+    const imagem = (p.imagens && p.imagens.length ? p.imagens[0] : p.imagem) || '';
+    const precoDe = p.precoBase != null ? p.precoBase : precoNumerico(p);
+    const precoOferta = precoNumerico(p);
+    if (precoOferta <= 0) return;
+    lista.push({
+      id: p.id,
+      nome: p.nome,
+      imagem: imagem,
+      precoDe: precoDe,
+      precoPix: precoOferta,
+      descontoPix: 20,
+      descricao: row.observacoes || ''
+    });
+  });
+  PRODUTOS_PROMO = lista;
+}
+
+// Carrega dados da planilha (dados/produtos.json). Por id: atualiza ou adiciona produto com os valores da planilha.
+async function carregarDadosPlanilha() {
+  let mapaComesticosImg = {};
+  try {
+    const rMap = await fetch('dados/comesticos_imagens.json');
+    if (rMap.ok) mapaComesticosImg = await rMap.json();
+  } catch (eMap) {}
+
+  try {
+    let linhas = [];
+    try {
+      const csv = await lerTextoComFallbackEncoding('dados/planilha_atualizacao_produtos.csv');
+      linhas = parseCsvSemicolon(csv);
+    } catch (eCsv) {}
+
+    if (linhas.length === 0) {
+      const rjson = await fetch('dados/produtos.json');
+      if (!rjson.ok) return;
+      const baseJson = await rjson.json();
+      if (!Array.isArray(baseJson) || baseJson.length === 0) return;
+      // Fallback: mantem compatibilidade quando so existir JSON.
+      return;
+    }
+
+    const novos = [];
+    for (const row of linhas) {
+      const idOriginal = String(row.id == null ? '' : row.id).trim();
+      const idPlanilha = normalizarIdSite(idOriginal);
+      if (!idPlanilha) continue;
+      if (!statusAtivo(row.status)) continue;
+
+      const imagensLista = String(row.imagens == null ? '' : row.imagens)
+        .split('|')
+        .map(function (x) { return normalizarCaminhoImagem(x); })
+        .filter(Boolean);
+      let imagemUnica = normalizarCaminhoImagem(row.imagem);
+      const categoria = normalizarCategoriaProduto(textoSeguro(row.categoria));
+      if (categoria === 'Comesticos' && mapaComesticosImg[idOriginal]) {
+        imagemUnica = normalizarCaminhoImagem(mapaComesticosImg[idOriginal]);
+      }
+      if (categoria === 'Vibradores' && (!imagemUnica || imagemUnica.indexOf('?') >= 0) && FALLBACK_IMAGEM_VIBRADORES[idOriginal]) {
+        imagemUnica = FALLBACK_IMAGEM_VIBRADORES[idOriginal];
+      }
+      if (categoria === 'Comesticos' && (!imagemUnica || imagemUnica.indexOf('?') >= 0 || imagemUnica.indexOf('�') >= 0)) {
+        imagemUnica = fallbackImagemPorCategoriaEId(categoria, idOriginal, row.nome) || imagemUnica;
+      }
+      if (categoria === 'Acessorios' && (!imagemUnica || imagemUnica.indexOf('?') >= 0 || imagemUnica.indexOf('�') >= 0)) {
+        imagemUnica = fallbackImagemPorCategoriaEId(categoria, idOriginal, row.nome) || imagemUnica;
+      }
+      const preco = parsePrecoPlanilha(row.preco);
+
+      const item = {
+        id: idOriginal,
+        nome: textoSeguro(row.nome) || idOriginal,
+        preco: preco > 0 ? preco : 0,
+        categoria: categoria,
+        maisVendido: valorBooleano(row.mais_vendido),
+        status: textoSeguro(row.status) || 'ATIVO'
+      };
+
+      if (imagensLista.length > 0) item.imagens = imagensLista;
+      else if (imagemUnica) item.imagem = imagemUnica;
+
+      novos.push(item);
+    }
+
+    if (novos.length > 0) {
+      PRODUTOS.splice(0, PRODUTOS.length, ...novos);
+    }
+  } catch (e) { /* mantém apenas PRODUTOS do script */ }
+}
+
+async function carregarPlanilhaOfertas() {
+  try {
+    const texto = await lerTextoComFallbackEncoding('dados/planilha_ofertas.csv');
+    const ofertas = parseCsvSemicolon(texto);
+    if (!ofertas.length) return;
+    aplicarOfertasNosProdutos(ofertas);
+    montarProdutosPromoDaPlanilha(ofertas);
+  } catch (e) { /* sem ofertas, mantém preços padrão */ }
+}
+
+function configurarOrdenacao() {
+  const select = document.getElementById('ordenar-por');
+  if (!select) return;
+  if (ordenacaoAtiva === 'procurado') ordenacaoAtiva = 'mais_vendidos';
+  if (ordenacaoAtiva === 'barato') ordenacaoAtiva = 'menor_preco';
+  select.value = ordenacaoAtiva;
+  select.addEventListener('change', function () {
+    ordenacaoAtiva = select.value;
+    localStorage.setItem('caixasecreta_ordenacao', ordenacaoAtiva);
+    renderizarProdutos();
+  });
+}
+
+function init() {
+  if (!MOSTRAR_PROMO_RELAMPAGO) {
+    const secaoPromo = document.getElementById('promo-relampago');
+    if (secaoPromo) secaoPromo.hidden = true;
+    document.querySelectorAll('a[href="index.html#promo-relampago"], a[href="#promo-relampago"]').forEach(function (a) {
+      a.style.display = 'none';
+    });
+  }
+
+  atualizarTituloOfertas();
+  renderizarAbas();
+  configurarOrdenacao();
+  configurarBusca();
+  renderizarProdutos();
+  renderizarMaisVendidos();
+  renderizarCarrinho();
+  if (MOSTRAR_PROMO_RELAMPAGO) {
+    renderizarPromo();
+    atualizarCountdown();
+    setInterval(atualizarCountdown, 1000);
+  }
+  updateContadorCarrinho();
+  if (MOSTRAR_PROMO_RELAMPAGO) {
+    window.addEventListener('resize', function () {
+      if (window.__promoResizeTimer) clearTimeout(window.__promoResizeTimer);
+      window.__promoResizeTimer = setTimeout(function () {
+        promoRotacaoIndex = 0;
+        renderizarPromo();
+      }, 180);
+    });
+  }
+}
+
+carregarDadosPlanilha().then(carregarPlanilhaOfertas).then(init);

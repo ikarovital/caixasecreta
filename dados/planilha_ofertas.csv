@@ -1,0 +1,8 @@
+tipo_oferta;dia_semana;id_produto;ativo;observacoes
+RELAMPAGO;;sophie-rosa;SIM;Oferta relampago ativa agora
+DIA;SEGUNDA;estimulador-porquinho;SIM;Oferta de segunda
+DIA;TERCA;vibrador-pincel;NAO;Exemplo desativado
+DIA;QUARTA;vibrador-magesty;NAO;
+DIA;QUINTA;ponto-g-30;NAO;
+DIA;SEXTA;vibrador-rotativo;NAO;
+DIA;SABADO;mini-toy-varinha;NAO;

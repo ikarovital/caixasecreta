@@ -1,0 +1,11 @@
+{
+  "name": "caixasecreta",
+  "private": true,
+  "scripts": {
+    "atualizar-produtos": "node scripts/planilha-to-json.js",
+    "watch-planilha": "node scripts/watch-planilha.js"
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+}
