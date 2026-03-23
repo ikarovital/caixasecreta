@@ -1,272 +1,74 @@
 [
   {
-    "id": "vibrador-pincel",
-    "nome": "Vibrador em Formato de Pincel com 8 Modos de Vibracao",
-    "preco": 89.9,
-    "categoria": "Vibradores",
-    "imagem": "imagens/Vibradores/Vibrador em Formato de pincel com 8 Modos de Vibracao.png",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "vibrador-magesty",
-    "nome": "Magesty Vibrador de Calcinha 9 Modos de Pulsacao Controle Via APP",
-    "preco": 129.9,
-    "categoria": "Vibradores",
-    "imagem": "imagens/Vibradores/Magesty Vibrador de Calcinha 9 Modos de Pulsacao Controle Via APP .png",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "basebal-bat",
-    "nome": "Basebal Bat Vibrador com Aparencia Realistica com 10 Modos Vai e Vem e Vibracao",
-    "preco": 119.9,
-    "categoria": "Vibradores",
-    "imagem": "imagens/Vibradores/Basebal Bat Vibrador com Aparencia Realistica com 10 Modos Vai e Vem e Vibracao.png",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "bullet-vibratorio",
-    "nome": "Bullet Vibratorio com 10 Modos de Vibracao Recarregavel e Controle por Aplicativo",
-    "preco": 79.9,
-    "categoria": "Vibradores",
-    "imagem": "imagens/Vibradores/Bullet Vibratorio com 10 Modos de Vibracao Recarregavel e Controle por Aplicativo.png",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "estimulador-porquinho",
-    "nome": "Estimulador Feminino Porquinho com 10 Modos de Ondas de Pressao",
-    "preco": 69.9,
-    "categoria": "Vibradores",
-    "imagem": "imagens/Vibradores/Estimulador Feminino Porquinho com 10 Modos de Ondas de Pressao.png",
-    "status": "ATIVO",
-    "mais_vendido": true
-  },
-  {
-    "id": "mini-toy-varinha",
-    "nome": "Mini Toy Vibrador Varinha Magica com 20 Modos de Vibracoes e 8 Niveis e Velocidade",
-    "preco": 99.9,
-    "categoria": "Vibradores",
-    "imagem": "imagens/Vibradores/Mini Toy Vibrador Varinha Magica com 20 Modos de Vibracoes e 8 Niveis e Velocidade.png",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "sophie-rosa",
-    "nome": "Sophie Vibrador Formato de Rosa com 10 Modos de Vibracao, Vai e Vem e Pulsacao",
-    "preco": 109.9,
-    "categoria": "Vibradores",
-    "imagem": "imagens/Vibradores/Sophie Vibrador Formato de Rosa com 10 Modos de Vibracao, Vai e Vem e Pulsacao.png",
-    "status": "ATIVO",
-    "mais_vendido": true
-  },
-  {
-    "id": "ponto-g-30",
-    "nome": "Vibrador Ponto G com 30 Modos de Vibracao",
-    "preco": 129.9,
-    "categoria": "Vibradores",
-    "imagem": "imagens/Vibradores/Vibrador Ponto G com 30 Modos de Vibracao.png",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "ponto-g-linguagem",
-    "nome": "Vibrador Ponto G com Estimulador de Clitoris Lingua com 10 Modos de Vibracao e Aquecimento",
-    "preco": 149.9,
-    "categoria": "Vibradores",
-    "imagem": "imagens/Vibradores/Vibrador Ponto G com Estimulador de Clitoris Lingua com 10 Modos de Vibracao e Aquecimento.png",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
     "id": "001",
-    "nome": "Vibrador Ponto G em Formato de Golfinho em ABS",
+    "nome": "001 - Vibrador Ponto G em Formato de Golfinho em ABS",
+    "preco": 5,
+    "categoria": "Vibradores"
+  },
+  {
+    "id": "002",
+    "nome": "Vibrador Rotativo Vai e Vem com 36 Nível de Pulsação e Estimulador",
     "preco": 30,
-    "categoria": "Vibradores",
-    "imagem": "imagens/Vibradores/001 - Vibrador Ponto G em Formato de Golfinho em ABS.png",
-    "status": "ATIVO",
-    "mais_vendido": false
+    "categoria": "Vibradores"
   },
   {
-    "id": "vibrador-rotativo",
-    "nome": "Vibrador Rotativo Vai e Vem com 36 Nivel de Pulsacao e Estimulador",
-    "preco": 139.9,
-    "categoria": "Vibradores",
-    "imagem": "imagens/Vibradores/Vibrador Rotativo Vai e Vem com 36 Nivel de Pulsacao e Estimulador.png",
-    "status": "ATIVO",
-    "mais_vendido": false
+    "id": "003",
+    "nome": "Vibrador Ponto G com Estimulador de Clitóris Língua com 10 Modos de Vibração e Aquecimento",
+    "preco": 30,
+    "categoria": "Vibradores"
   },
   {
-    "id": "kuloko-gel",
-    "nome": "Kuloko Gel Dessensibilizante e Excitante Anal Linha Brasileirinhos 15g",
-    "preco": 49.9,
-    "categoria": "Comesticos",
-    "imagem": "imagens/Comesticos/Kuloko Gel Dessensibilizante e Excitante Anal Linha Brasileirinhos 15g.png",
-    "status": "ATIVO",
-    "mais_vendido": false
+    "id": "004",
+    "nome": "Vibrador Ponto G com 30 Modos de Vibração",
+    "preco": 30,
+    "categoria": "Vibradores"
   },
   {
-    "id": "xana-loka-gel",
+    "id": "005",
+    "nome": "Vibrador em Formato de pincel com 8 Modos de Vibração",
+    "preco": 30,
+    "categoria": "Vibradores"
+  },
+  {
+    "id": "006",
+    "nome": "Sophie Vibrador Formato de Rosa com 10 Modos de Vibracao, Vai e Vem e Pulsacao",
+    "preco": 30,
+    "categoria": "Vibradores"
+  },
+  {
+    "id": "007",
+    "nome": "Mini Toy Vibrador Varinha Mágica com 20 Modos de Vibrações e 8 Níveis e Velocidade",
+    "preco": 30,
+    "categoria": "Vibradores"
+  },
+  {
+    "id": "008",
+    "nome": "Magesty Vibrador de Calcinha 9 Modos de Pulsação Controle Via APP",
+    "preco": 30,
+    "categoria": "Vibradores"
+  },
+  {
+    "id": "009",
+    "nome": "Estimulador Feminino Porquinho com 10 Modos de Ondas de Pressão",
+    "preco": 30,
+    "categoria": "Vibradores"
+  },
+  {
+    "id": "010",
+    "nome": "Bullet Vibratório com 10 Modos de Vibração Recarregável e Controle por Aplicativo",
+    "preco": 30,
+    "categoria": "Vibradores"
+  },
+  {
+    "id": "011",
+    "nome": "Basebal Bat Vibrador com Aparência Realística com 10 Modos Vai e Vem e Vibração",
+    "preco": 30,
+    "categoria": "Vibradores"
+  },
+  {
+    "id": "012",
     "nome": "Xana Loka Gel Excitante Feminino Linha Brasileirinhos 15g",
-    "preco": 49.9,
-    "categoria": "Comesticos",
-    "imagem": "imagens/Comesticos/Xana Loka Gel Excitante Feminino Linha Brasileirinhos 15g.png",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "chabata",
-    "nome": "Chabata",
-    "preco": 79.9,
-    "categoria": "Fetiche_Sado",
-    "imagem": "imagens/Fetiche_Sado/Chabata.png",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "chicote",
-    "nome": "Chicote",
-    "preco": 89.9,
-    "categoria": "Fetiche_Sado",
-    "imagem": "imagens/Fetiche_Sado/Chicote.png",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "corda",
-    "nome": "Corda",
-    "preco": 59.9,
-    "categoria": "Fetiche_Sado",
-    "imagem": "imagens/Fetiche_Sado/Corda.png",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "kit-sado",
-    "nome": "Kit Sado",
-    "preco": 149.9,
-    "categoria": "Fetiche_Sado",
-    "imagem": "imagens/Fetiche_Sado/Kit Sado.png",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "sado",
-    "nome": "Sado",
-    "preco": 99.9,
-    "categoria": "Fetiche_Sado",
-    "imagem": "imagens/Fetiche_Sado/Sado.png",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "lingerie-branco-fio",
-    "nome": "Lingerie Branco Fio (Frente e Costas)",
-    "preco": 129.9,
-    "categoria": "Lingerie",
-    "imagens": [
-      "imagens/Lingerie/branco fio1.png",
-      "imagens/Lingerie/brancio fio2.png"
-    ],
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "lingerie-parte",
-    "nome": "Lingerie Parte (Frente e Costas)",
-    "preco": 99.9,
-    "categoria": "Lingerie",
-    "imagens": [
-      "imagens/Lingerie/parte1.webp",
-      "imagens/Lingerie/parte2.webp"
-    ],
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "lingerie-pluz",
-    "nome": "Lingerie Pluz (Frente e Costas)",
-    "preco": 99.9,
-    "categoria": "Lingerie",
-    "imagens": [
-      "imagens/Lingerie/pluz1.webp",
-      "imagens/Lingerie/pluz2.webp"
-    ],
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "lingerie-hl074-rosa",
-    "nome": "Lingerie Rosa Claro com Branco",
-    "preco": 79.9,
-    "categoria": "Lingerie",
-    "imagem": "imagens/Lingerie/HL074-U-Rosa-Claro-com-Branco_1-.webp",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "lingerie-hl074-vermelho",
-    "nome": "Lingerie Vermelho com Preto",
-    "preco": 79.9,
-    "categoria": "Lingerie",
-    "imagem": "imagens/Lingerie/HL074-U-Vermelho-com-Preto_1-.webp",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "lingerie-hl680-vermelho",
-    "nome": "Lingerie Vermelho",
-    "preco": 99.9,
-    "categoria": "Lingerie",
-    "imagem": "imagens/Lingerie/HL680-P-Vermelho_1.webp",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "lingerie-hl680-preto",
-    "nome": "Lingerie Preto",
-    "preco": 99.9,
-    "categoria": "Lingerie",
-    "imagem": "imagens/Lingerie/HL680-U-Preto_2.webp",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "lingerie-hl717-pink",
-    "nome": "Lingerie Pink",
-    "preco": 94.9,
-    "categoria": "Lingerie",
-    "imagem": "imagens/Lingerie/HL717-U-Pink_1-removebg-preview.png",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "lingerie-hl717-preto",
-    "nome": "Lingerie Preto HL717",
-    "preco": 94.9,
-    "categoria": "Lingerie",
-    "imagem": "imagens/Lingerie/HL717-U-Preto_2-removebg-preview.png",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "lingerie-hl772-azul",
-    "nome": "Lingerie Azul",
-    "preco": 94.9,
-    "categoria": "Lingerie",
-    "imagem": "imagens/Lingerie/HL772-U-Azul_1.webp",
-    "status": "ATIVO",
-    "mais_vendido": false
-  },
-  {
-    "id": "lingerie-hl772-vermelho",
-    "nome": "Lingerie Vermelho HL772",
-    "preco": 94.9,
-    "categoria": "Lingerie",
-    "imagem": "imagens/Lingerie/HL772-U-Vermelho_2.webp",
-    "status": "ATIVO",
-    "mais_vendido": false
+    "preco": 30,
+    "categoria": "Vibradores"
   }
 ]
