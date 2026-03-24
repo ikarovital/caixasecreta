@@ -225,6 +225,8 @@ const PRODUTOS = [
 ];
 
 const WHATSAPP_NUMERO = '5511918535361';
+/** Incrementar ao alterar a planilha para o navegador não usar CSV em cache. */
+const VERSAO_PLANILHA_PRODUTOS = '8';
 const MOSTRAR_PROMO_RELAMPAGO = false;
 
 // ========== PROMOÇÃO RELÂMPAGO ==========
@@ -1012,16 +1014,31 @@ function parseCsvSemicolon(texto) {
   });
 }
 
+function pontuacaoTextoLegivel(s) {
+  if (s == null || s === '') return -1e9;
+  var pts = (s.match(/[áàâãéêíóôõúçÁÀÂÃÉÊÍÓÔÕÚÇ]/g) || []).length * 4;
+  pts += (s.match(/[a-zA-Z0-9\s\-.,;]/g) || []).length;
+  pts -= (s.match(/\uFFFD/g) || []).length * 80;
+  pts -= (s.match(/\?\?/g) || []).length * 50;
+  pts -= (s.match(/[?]/g) || []).length * 3;
+  return pts;
+}
+
 async function lerTextoComFallbackEncoding(url) {
   const r = await fetch(url);
   if (!r.ok) throw new Error('Falha ao carregar: ' + url);
   const buf = await r.arrayBuffer();
   const utf8 = new TextDecoder('utf-8').decode(buf);
-  const ruinsUtf8 = (utf8.match(/\uFFFD/g) || []).length;
-  if (ruinsUtf8 === 0) return utf8;
   const win1252 = new TextDecoder('windows-1252').decode(buf);
-  const ruinsWin = (win1252.match(/\uFFFD/g) || []).length;
-  return ruinsWin < ruinsUtf8 ? win1252 : utf8;
+  const iso1 = new TextDecoder('iso-8859-1').decode(buf);
+  var melhor = utf8;
+  var sc = pontuacaoTextoLegivel(utf8);
+  if (pontuacaoTextoLegivel(win1252) > sc) {
+    melhor = win1252;
+    sc = pontuacaoTextoLegivel(win1252);
+  }
+  if (pontuacaoTextoLegivel(iso1) > sc) melhor = iso1;
+  return melhor;
 }
 
 function textoSeguro(v) {
@@ -1060,6 +1077,25 @@ const FALLBACK_IMAGEM_VIBRADORES = {
   '13': 'imagens/Vibradores/Female Vibrator Vibrador Ponto G com 30 Modos de Vibração.png',
   '14': 'imagens/Vibradores/Vibrador Ponto G com Estimulador de Clitóris Língua com 10 Modos de Vibração e Aquecimento.png',
   '15': 'imagens/Vibradores/Vibrador Recarregável com Glande e Estimulador Clitoriano Coelho com 12 Modos de Vibração.png'
+};
+
+/** Nomes UTF-8 oficiais (ids numéricos da planilha); evita exibir ? se o CSV vier com encoding errado. */
+const NOME_PLANILHA_VIBRADORES_ID = {
+  '1': 'Vibrador Ponto G em Formato de Golfinho em ABS',
+  '2': 'Basebal Bat Vibrador com Aparência Realística com 10 Modos Vai e Vem e Vibração',
+  '3': 'Bullet Vibratório com 10 Modos de Vibração Recarregável e Controle por Aplicativo',
+  '4': 'Estimulador Feminino Porquinho com 10 Modos de Ondas de Pressão',
+  '5': 'Lilo Vibrador Varinha Mágica com 10 Modos de Vibrações',
+  '6': 'Lipstick Vibe Vibrador em Formato de Batom Vibração',
+  '7': 'Magesty Vibrador de Calcinha 9 Modos de Pulsação Controle Via APP',
+  '8': 'Mini Toy Vibrador Varinha Mágica com 20 Modos de Vibrações e 8 Níveis e Velocidade',
+  '9': 'Pretty Love Abner Bullet Wireless Via Bluetooth e 12 Modos de Vibração',
+  '10': 'Sophie Vibrador Formato de Rosa com 10 Modos de Vibracao, Vai e Vem e Pulsacao',
+  '11': 'Vibrador Bullet Hot Flowers',
+  '12': 'Vibrador em Formato de pincel com 8 Modos de Vibração',
+  '13': 'Female Vibrator Vibrador Ponto G com 30 Modos de Vibração',
+  '14': 'Vibrador Ponto G com Estimulador de Clitóris Língua com 10 Modos de Vibração e Aquecimento',
+  '15': 'Vibrador Recarregável com Glande e Estimulador Clitoriano Coelho com 12 Modos de Vibração'
 };
 
 const FALLBACK_IMAGEM_COMESTICOS = {
@@ -1265,7 +1301,9 @@ async function carregarDadosPlanilha() {
   try {
     let linhas = [];
     try {
-      const csv = await lerTextoComFallbackEncoding('dados/planilha_atualizacao_produtos.csv');
+      const csv = await lerTextoComFallbackEncoding(
+        'dados/planilha_atualizacao_produtos.csv?v=' + VERSAO_PLANILHA_PRODUTOS
+      );
       linhas = parseCsvSemicolon(csv);
     } catch (eCsv) {}
 
@@ -1305,9 +1343,11 @@ async function carregarDadosPlanilha() {
       }
       const preco = parsePrecoPlanilha(row.preco);
 
+      const nomePlanilha = textoSeguro(row.nome) || idOriginal;
+      const nomeFinal = NOME_PLANILHA_VIBRADORES_ID[idOriginal] || nomePlanilha;
       const item = {
         id: idOriginal,
-        nome: textoSeguro(row.nome) || idOriginal,
+        nome: nomeFinal,
         preco: preco > 0 ? preco : 0,
         categoria: categoria,
         maisVendido: valorBooleano(row.mais_vendido),
