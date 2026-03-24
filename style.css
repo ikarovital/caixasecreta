@@ -307,6 +307,24 @@ a:hover {
   display: block;
 }
 
+/* Celular: arte larga com texto à esquerda — cover corta as bordas; contain mostra 100% da imagem */
+@media (max-width: 767px) {
+  .banner {
+    min-height: 280px;
+    min-height: min(52dvh, 360px);
+  }
+
+  .banner-img-wrap {
+    padding: 0 0.25rem;
+    box-sizing: border-box;
+  }
+
+  .banner-img {
+    object-fit: contain;
+    object-position: center center;
+  }
+}
+
 @media (min-width: 768px) {
   .banner {
     min-height: 45vh;
