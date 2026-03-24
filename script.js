@@ -1170,13 +1170,22 @@ function fallbackImagemGenericoCategoria(categoria) {
 }
 
 function normalizarCategoriaProduto(v) {
-  const s = String(v == null ? '' : v).trim().toLowerCase();
-  if (s === 'comesticos') return 'Comesticos';
-  if (s === 'fetiche_sado') return 'Fetiche_Sado';
-  if (s === 'vibradores') return 'Vibradores';
-  if (s === 'lingerie') return 'Lingerie';
-  if (s === 'acessorios' || s === 'acessórios' || s === 'acessorio' || s === 'acessório') return 'Acessorios';
-  return String(v == null ? '' : v).trim() || 'Vibradores';
+  const raw = String(v == null ? '' : v).trim();
+  if (!raw) return 'Vibradores';
+  const slug = raw
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/&/g, ' e ')
+    .replace(/[^a-z0-9]+/g, '');
+  if (slug === 'comesticos' || slug === 'cosmeticos') return 'Comesticos';
+  if (slug === 'fetichesado') return 'Fetiche_Sado';
+  if (slug === 'vibradores') return 'Vibradores';
+  if (slug === 'lingerie') return 'Lingerie';
+  if (slug === 'acessorios' || slug === 'acessorio') return 'Acessorios';
+  const legacy = ['Comesticos', 'Fetiche_Sado', 'Vibradores', 'Lingerie', 'Acessorios'];
+  if (legacy.indexOf(raw) >= 0) return raw;
+  return raw || 'Vibradores';
 }
 
 function aplicarOfertasNosProdutos(ofertas) {
