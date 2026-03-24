@@ -322,10 +322,10 @@ function incrementarProcura(id) {
 function produtosFiltrados() {
   let lista = categoriaAtiva === 'todos' ? PRODUTOS.slice() : PRODUTOS.filter(p => p.categoria === categoriaAtiva);
   if (buscaTexto) {
-    const termo = buscaTexto.trim().toLowerCase();
+    const termo = textoSemCaracteresEspeciais(buscaTexto).trim().toLowerCase();
     lista = lista.filter(p =>
-      (p.nome && p.nome.toLowerCase().indexOf(termo) >= 0) ||
-      (p.categoria && p.categoria.toLowerCase().indexOf(termo) >= 0)
+      (p.nome && textoSemCaracteresEspeciais(p.nome).toLowerCase().indexOf(termo) >= 0) ||
+      (p.categoria && textoSemCaracteresEspeciais(p.categoria).toLowerCase().indexOf(termo) >= 0)
     );
   }
   return lista;
@@ -380,27 +380,29 @@ function getTopMaisVendidosIds(n) {
 
 function montarCardProduto(p, opts) {
   opts = opts || {};
+  const nomeEx = textoSemCaracteresEspeciais(p.nome);
+  const descEx = p.descricao ? textoSemCaracteresEspeciais(p.descricao) : '';
   const fallbackPadrao = fallbackImagemGenericoCategoria(p.categoria);
   const imgs = (p.imagens && p.imagens.length ? p.imagens : [p.imagem]).filter(function (src) { return src; });
   const imgHtml = imgs.length ? imgs.map((src, i) =>
-    '<img src="' + urlImagem(src) + '" data-fallback="' + urlImagem(fallbackPadrao) + '" alt="' + (p.nome + ' ' + (i === 0 ? '(frente)' : '(costas)')) + '" loading="lazy" decoding="async" onerror="if(this.dataset.fallback&&this.dataset.fallback!==this.getAttribute(\'src\')){this.setAttribute(\'src\',this.dataset.fallback);return;}this.style.display=\'none\';this.parentElement.style.background=\'var(--fundo)\'">'
+    '<img src="' + urlImagem(src) + '" data-fallback="' + urlImagem(fallbackPadrao) + '" alt="' + escaparHtml(nomeEx + ' ' + (i === 0 ? '(frente)' : '(costas)')) + '" loading="lazy" decoding="async" onerror="if(this.dataset.fallback&&this.dataset.fallback!==this.getAttribute(\'src\')){this.setAttribute(\'src\',this.dataset.fallback);return;}this.style.display=\'none\';this.parentElement.style.background=\'var(--fundo)\'">'
   ).join('') : '<div class="produto-img-placeholder"></div>';
   const topIds = opts.topMaisVendidosIds || [];
   const selos = [];
   if (p.maisVendido || topIds.indexOf(p.id) >= 0) selos.push('<span class="produto-selo mais-vendido">Mais vendido</span>');
   if (p.desconto != null && p.desconto > 0) selos.push('<span class="produto-selo desconto">' + p.desconto + '% OFF</span>');
   const selosHtml = selos.length ? '<div class="produto-selos">' + selos.join('') + '</div>' : '';
-  const msgWhatsApp = encodeURIComponent('Olá! Gostaria de mais informações sobre: ' + p.nome);
+  const msgWhatsApp = encodeURIComponent('Olá! Gostaria de mais informações sobre: ' + nomeEx);
   const linkWhatsApp = 'https://wa.me/' + WHATSAPP_NUMERO + '?text=' + msgWhatsApp;
-  const descHtml = p.descricao
-    ? '<p class="produto-descricao">' + escaparHtml(p.descricao) + '</p>'
+  const descHtml = descEx
+    ? '<p class="produto-descricao">' + escaparHtml(descEx) + '</p>'
     : '';
   return (
     '<article class="produto-card" data-id="' + p.id + '">' +
       selosHtml +
       '<div class="produto-img-wrap ' + (imgs.length > 1 ? 'produto-img-wrap--dupla' : '') + '">' + imgHtml + '</div>' +
       '<div class="produto-info">' +
-        '<h3 class="produto-nome">' + p.nome + '</h3>' +
+        '<h3 class="produto-nome">' + escaparHtml(nomeEx) + '</h3>' +
         descHtml +
         '<p class="produto-preco">' + formatarPreco(p.preco) + '</p>' +
         '<div class="produto-botoes">' +
@@ -546,7 +548,7 @@ function renderizarCarrinho() {
     div.innerHTML = `
       <img class="carrinho-item-img" src="${urlImagem(item.imagem)}" alt="" onerror="this.style.display='none'">
       <div class="carrinho-item-detalhes">
-        <p class="carrinho-item-nome">${item.nome}</p>
+        <p class="carrinho-item-nome">${escaparHtml(textoSemCaracteresEspeciais(item.nome))}</p>
         <p class="carrinho-item-preco">${formatarPreco(item.preco)} un.</p>
       </div>
       <div class="carrinho-item-qtd">
@@ -736,7 +738,7 @@ function montarMensagemPedido(nome, whatsapp, cep, formaPagamento) {
     ''
   ];
   carrinho.forEach(function (i) {
-    linhas.push(i.quantidade + 'x ' + i.nome + ' - ' + formatarPreco(i.preco));
+    linhas.push(i.quantidade + 'x ' + textoSemCaracteresEspeciais(i.nome) + ' - ' + formatarPreco(i.preco));
   });
   linhas.push('');
   linhas.push('Subtotal: ' + formatarPreco(subtotal));
@@ -901,14 +903,17 @@ function renderizarPromo() {
     return;
   }
   const vitrine = obterVitrinePromo();
-  el.innerHTML = vitrine.map(p => `
+  el.innerHTML = vitrine.map(p => {
+    const nomeP = escaparHtml(textoSemCaracteresEspeciais(p.nome));
+    const descP = p.descricao ? escaparHtml(textoSemCaracteresEspeciais(p.descricao)) : '';
+    return `
     <div class="promo-item" data-id="${p.id}">
       <div class="promo-item-img-wrap">
-        <img src="${p.imagem}" alt="${p.nome}" onerror="this.parentElement.style.background='var(--fundo)'">
+        <img src="${p.imagem}" alt="${nomeP}" onerror="this.parentElement.style.background='var(--fundo)'">
       </div>
       <div class="promo-item-info">
-        <p class="promo-item-nome">${p.nome}</p>
-        ${p.descricao ? `<p class="promo-item-desc">${p.descricao}</p>` : ''}
+        <p class="promo-item-nome">${nomeP}</p>
+        ${descP ? `<p class="promo-item-desc">${descP}</p>` : ''}
         ${p.descontoPix ? `<span class="promo-item-badge">${p.descontoPix}% OFF</span>` : ''}
         <div class="promo-item-precos">
           ${p.precoDe ? `<span class="promo-item-de">De ${formatarPreco(p.precoDe)}</span>` : ''}
@@ -918,7 +923,8 @@ function renderizarPromo() {
       </div>
       <button type="button" class="promo-item-btn" data-id="${p.id}">Adicionar ao carrinho</button>
     </div>
-  `).join('');
+  `;
+  }).join('');
 
   el.querySelectorAll('.promo-item-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1033,6 +1039,26 @@ async function lerTextoComFallbackEncoding(url) {
 
 function textoSeguro(v) {
   return String(v == null ? '' : v).replace(/\uFFFD/g, '').trim();
+}
+
+/**
+ * Substitui acentos e símbolos tipográficos por ASCII equivalente,
+ * evitando caracteres especiais na interface e em mensagens (WhatsApp).
+ */
+function textoSemCaracteresEspeciais(v) {
+  var s = String(v == null ? '' : v).trim();
+  if (!s) return '';
+  s = s
+    .replace(/[\u2013\u2014\u2212]/g, '-')
+    .replace(/[\u2018\u2019\u02BC]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/\u2026/g, '...')
+    .replace(/\u00A0/g, ' ')
+    .replace(/[\uFEFF]/g, '');
+  try {
+    s = s.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  } catch (e) {}
+  return s.replace(/\s+/g, ' ').trim();
 }
 
 function parsePrecoPlanilha(v) {
@@ -1264,12 +1290,12 @@ function montarProdutosPromoDaPlanilha(ofertas) {
     if (precoOferta <= 0) return;
     lista.push({
       id: p.id,
-      nome: p.nome,
+      nome: textoSemCaracteresEspeciais(p.nome),
       imagem: imagem,
       precoDe: precoDe,
       precoPix: precoOferta,
       descontoPix: 20,
-      descricao: row.observacoes || ''
+      descricao: textoSemCaracteresEspeciais(row.observacoes || '')
     });
   });
   PRODUTOS_PROMO = lista;
@@ -1334,7 +1360,9 @@ async function carregarDadosPlanilha() {
       const preco = parsePrecoPlanilha(row.preco);
 
       const nomePlanilha = textoSeguro(row.nome) || idOriginal;
-      const nomeFinal = NOME_PLANILHA_VIBRADORES_ID[idOriginal] || nomePlanilha;
+      const nomeFinal = textoSemCaracteresEspeciais(
+        NOME_PLANILHA_VIBRADORES_ID[idOriginal] || nomePlanilha
+      );
       const item = {
         id: idOriginal,
         nome: nomeFinal,
@@ -1349,8 +1377,8 @@ async function carregarDadosPlanilha() {
 
       var descPlanilha = row.descricao != null ? textoSeguro(row.descricao) : '';
       var descJson = mapaDescricoesProduto[idOriginal] ? textoSeguro(mapaDescricoesProduto[idOriginal]) : '';
-      if (descPlanilha) item.descricao = descPlanilha;
-      else if (descJson) item.descricao = descJson;
+      if (descPlanilha) item.descricao = textoSemCaracteresEspeciais(descPlanilha);
+      else if (descJson) item.descricao = textoSemCaracteresEspeciais(descJson);
 
       novos.push(item);
     }
