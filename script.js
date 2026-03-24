@@ -226,7 +226,7 @@ const PRODUTOS = [
 
 const WHATSAPP_NUMERO = '5511918535361';
 /** Incrementar ao alterar a planilha para o navegador não usar CSV em cache. */
-const VERSAO_PLANILHA_PRODUTOS = '9';
+const VERSAO_PLANILHA_PRODUTOS = '10';
 const MOSTRAR_PROMO_RELAMPAGO = false;
 
 // ========== PROMOÇÃO RELÂMPAGO ==========
@@ -1014,31 +1014,21 @@ function parseCsvSemicolon(texto) {
   });
 }
 
-function pontuacaoTextoLegivel(s) {
-  if (s == null || s === '') return -1e9;
-  var pts = (s.match(/[áàâãéêíóôõúçÁÀÂÃÉÊÍÓÔÕÚÇ]/g) || []).length * 4;
-  pts += (s.match(/[a-zA-Z0-9\s\-.,;]/g) || []).length;
-  pts -= (s.match(/\uFFFD/g) || []).length * 80;
-  pts -= (s.match(/\?\?/g) || []).length * 50;
-  pts -= (s.match(/[?]/g) || []).length * 3;
-  return pts;
-}
-
+/**
+ * Planilhas do repositório são UTF-8. Decodificar como Latin-1/Windows-1252
+ * quebra acentos (ex.: Comestível -> Comestï¿½vel). Só usa fallback se UTF-8
+ * tiver muitos caracteres de substituição (U+FFFD).
+ */
 async function lerTextoComFallbackEncoding(url) {
   const r = await fetch(url);
   if (!r.ok) throw new Error('Falha ao carregar: ' + url);
   const buf = await r.arrayBuffer();
   const utf8 = new TextDecoder('utf-8').decode(buf);
+  const ruins = (utf8.match(/\uFFFD/g) || []).length;
+  if (ruins === 0 || ruins < utf8.length * 0.01) return utf8;
   const win1252 = new TextDecoder('windows-1252').decode(buf);
-  const iso1 = new TextDecoder('iso-8859-1').decode(buf);
-  var melhor = utf8;
-  var sc = pontuacaoTextoLegivel(utf8);
-  if (pontuacaoTextoLegivel(win1252) > sc) {
-    melhor = win1252;
-    sc = pontuacaoTextoLegivel(win1252);
-  }
-  if (pontuacaoTextoLegivel(iso1) > sc) melhor = iso1;
-  return melhor;
+  const ruins1252 = (win1252.match(/\uFFFD/g) || []).length;
+  return ruins1252 < ruins ? win1252 : utf8;
 }
 
 function textoSeguro(v) {
