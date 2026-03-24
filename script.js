@@ -226,7 +226,7 @@ const PRODUTOS = [
 
 const WHATSAPP_NUMERO = '5511918535361';
 /** Incrementar ao alterar a planilha para o navegador não usar CSV em cache. */
-const VERSAO_PLANILHA_PRODUTOS = '8';
+const VERSAO_PLANILHA_PRODUTOS = '9';
 const MOSTRAR_PROMO_RELAMPAGO = false;
 
 // ========== PROMOÇÃO RELÂMPAGO ==========
