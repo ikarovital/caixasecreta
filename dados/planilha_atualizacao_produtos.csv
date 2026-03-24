@@ -1,57 +1,57 @@
-id;nome;preco;categoria;imagem;imagens;status;mais_vendido;observacoes;preco_atacado
-1;Vibrador Ponto G em Formato de Golfinho em ABS;35.00;Vibradores;imagens/Vibradores/001 - Vibrador Ponto G em Formato de Golfinho em ABS.png;;ATIVO;NAO;;6.50
-2;Basebal Bat Vibrador com Apar?ncia Real?stica com 10 Modos Vai e Vem e Vibra??o;225.00;Vibradores;imagens/Vibradores/Basebal Bat Vibrador com Apar?ncia Real?stica com 10 Modos Vai e Vem e Vibra??o.png;;ATIVO;NAO;Bateria recarregavel via cabo USB;180.00
-3;Bullet Vibrat?rio com 10 Modos de Vibra??o Recarreg?vel e Controle por Aplicativo;80.00;Vibradores;imagens/Vibradores/Bullet Vibrat?rio com 10 Modos de Vibra??o Recarreg?vel e Controle por Aplicativo.png;;ATIVO;NAO;Bateria recarregavel via cabo USB;45.00
-4;Estimulador Feminino Porquinho com 10 Modos de Ondas de Press?o;145.00;Vibradores;imagens/Vibradores/Estimulador Feminino Porquinho com 10 Modos de Ondas de Press?o.png;;ATIVO;NAO;Bateria recarregavel via cabo USB;70.00
-5;Lilo Vibrador Varinha M?gica com 10 Modos de Vibra??es;110.00;Vibradores;imagens/Vibradores/Lilo Vibrador Varinha M?gica com 10 Modos de Vibra??es .png;;ATIVO;SIM;Bateria recarregavel via cabo USB;70.00
-6;Lipstick Vibe Vibrador em Formato de Batom Vibra??o;30.00;Vibradores;imagens/Vibradores/Lipstick Vibe Vibrador em Formato de Batom Vibra??o.png;;ATIVO;NAO;;10.00
-7;Magesty Vibrador de Calcinha 9 Modos de Pulsa??o Controle Via APP;180.00;Vibradores;imagens/Vibradores/Magesty Vibrador de Calcinha 9 Modos de Pulsa??o Controle Via APP.png;;ATIVO;SIM;;100.00
-8;Mini Toy Vibrador Varinha M?gica com 20 Modos de Vibra??es e 8 N?veis e Velocidade;75.00;Vibradores;imagens/Vibradores/Mini Toy Vibrador Varinha M?gica com 20 Modos de Vibra??es e 8 N?veis e Velocidade.png;;ATIVO;NAO;;50.00
-9;Pretty Love Abner Bullet Wireless Via Bluetooth e 12 Modos de Vibra??o;170.00;Vibradores;imagens/Vibradores/Pretty Love Abner Bullet Wireless Via Bluetooth e 12 Modos de Vibra??o.png;;ATIVO;NAO;;86.00
-10;Sophie Vibrador Formato de Rosa com 10 Modos de Vibracao, Vai e Vem e Pulsacao;130.00;Vibradores;imagens/Vibradores/Sophie Vibrador Formato de Rosa com 10 Modos de Vibracao, Vai e Vem e Pulsacao.png;;ATIVO;NAO;;70.00
-11;Vibrador Bullet Hot Flowers;85.00;Vibradores;imagens/Vibradores/Vibrador Bullet Hot Flowers.png;;ATIVO;NAO;;45.00
-kuloko-gel;Kuloko Gel Dessensibilizante e Excitante Anal Linha Brasileirinhos 15g;20.00;Comesticos;imagens/Comesticos/Kuloko Gel Dessensibilizante e Excitante Anal Linha Brasileirinhos 15g.png;;ATIVO;SIM;;6.50
-xana-loka-gel;Xana Loka Gel Excitante Feminino Linha Brasileirinhos 15g;20.00;Comesticos;imagens/Comesticos/Xana Loka Gel Excitante Feminino Linha Brasileirinhos 15g.png;;ATIVO;SIM;;6.50
-chabata;Chabata;79.90;Fetiche_Sado;imagens/Fetiche_Sado/Chabata.png;;ATIVO;NAO;;
-chicote;Chicote;89.90;Fetiche_Sado;imagens/Fetiche_Sado/Chicote.png;;ATIVO;NAO;;
-corda;Corda;59.90;Fetiche_Sado;imagens/Fetiche_Sado/Corda.png;;ATIVO;NAO;;
-kit-sado;Kit Sado;149.90;Fetiche_Sado;imagens/Fetiche_Sado/Kit Sado.png;;ATIVO;NAO;;
-sado;Sado;99.90;Fetiche_Sado;imagens/Fetiche_Sado/Sado.png;;ATIVO;NAO;;
-lingerie-branco-fio;Lingerie Branco Fio (Frente e Costas);129.90;Lingerie;;imagens/Lingerie/branco fio1.png|imagens/Lingerie/brancio fio2.png;ATIVO;NAO;;
-lingerie-parte;Lingerie Parte (Frente e Costas);99.90;Lingerie;;imagens/Lingerie/parte1.webp|imagens/Lingerie/parte2.webp;ATIVO;NAO;;
-lingerie-pluz;Lingerie Pluz (Frente e Costas);99.90;Lingerie;;imagens/Lingerie/pluz1.webp|imagens/Lingerie/pluz2.webp;ATIVO;NAO;;
-lingerie-hl074-rosa;Lingerie Rosa Claro com Branco;79.90;Lingerie;imagens/Lingerie/HL074-U-Rosa-Claro-com-Branco_1-.webp;;ATIVO;NAO;;
-lingerie-hl074-vermelho;Lingerie Vermelho com Preto;79.90;Lingerie;imagens/Lingerie/HL074-U-Vermelho-com-Preto_1-.webp;;ATIVO;NAO;;
-lingerie-hl680-vermelho;Lingerie Vermelho;99.90;Lingerie;imagens/Lingerie/HL680-P-Vermelho_1.webp;;ATIVO;NAO;;
-lingerie-hl680-preto;Lingerie Preto;99.90;Lingerie;imagens/Lingerie/HL680-U-Preto_2.webp;;ATIVO;NAO;;
-lingerie-hl717-pink;Lingerie Pink;94.90;Lingerie;imagens/Lingerie/HL717-U-Pink_1-removebg-preview.png;;ATIVO;NAO;;
-lingerie-hl717-preto;Lingerie Preto HL717;94.90;Lingerie;imagens/Lingerie/HL717-U-Preto_2-removebg-preview.png;;ATIVO;NAO;;
-lingerie-hl772-azul;Lingerie Azul;94.90;Lingerie;imagens/Lingerie/HL772-U-Azul_1.webp;;ATIVO;NAO;;
-lingerie-hl772-vermelho;Lingerie Vermelho HL772;94.90;Lingerie;imagens/Lingerie/HL772-U-Vermelho_2.webp;;ATIVO;NAO;;
-12;Vibrador em Formato de pincel com 8 Modos de Vibra??o;120.00;Vibradores;imagens/Vibradores/Vibrador em Formato de pincel com 8 Modos de Vibra??o.png;;ATIVO;NAO;;50.00
-13;Female Vibrator Vibrador Ponto G com 30 Modos de Vibra??o;110.00;Vibradores;imagens/Vibradores/Female Vibrator Vibrador Ponto G com 30 Modos de Vibra??o.png;;ATIVO;NAO;;66.00
-14;Vibrador Ponto G com Estimulador de Clit?ris L?ngua com 10 Modos de Vibra??o e Aquecimento;170.00;Vibradores;imagens/Vibradores/Vibrador Ponto G com Estimulador de Clit?ris L?ngua com 10 Modos de Vibra??o e Aquecimento.png;;ATIVO;NAO;;96.00
-15;Vibrador Recarreg?vel com Glande e Estimulador Clitoriano Coelho com 12 Modos de Vibra??o;160.00;Vibradores;imagens/Vibradores/Vibrador Recarreg?vel com Glande e Estimulador Clitoriano Coelho com 12 Modos de Vibra??o.png;;ATIVO;NAO;;70.00
-calcinha-comestivel-yummy;Calcinha Comestível Yummy 1 Unidade;40.00;Comesticos;imagens/Comesticos/Calcinha Comestível Yummy 1 Unidade.png;;ATIVO;NAO;;25.00
-aromatizante-bucal-power-black-ice;Aromatizante Bucal Power Black Ice Spray 18ml Hot Flowers;30.00;Comesticos;imagens/Comesticos/Aromatizante Bucal Power Black Ice Spray 18ml Hot Flowers.png;;ATIVO;NAO;;15.00
-maxx-babaloo-caneta-a;Maxx Babaloo Caneta Comestível Bala Líquida em Gel 20g;10.00;Comesticos;imagens/Comesticos/Maxx_Babaloo_Caneta_Comestível_Bala_Líquida_em_Gel_20g.png;;ATIVO;NAO;Melancia e tutti-frutti;5.00
-karamela-tapa-sexo-comestivel;Karamela Tapa Sexo Comestível Formato Coração;25.00;Comesticos;imagens/Comesticos/Karamela Tapa Sexo Comestível Formato Coração.png;;ATIVO;NAO;;11.00
-gel-termico-beijavel-yummy;Gel Térmico Beijável Yummy 15ml;13.00;Comesticos;imagens/Comesticos/Gel Térmico Beijável Yummy 15ml.png;;ATIVO;NAO;;3.00
-sedenta-garganta-profunda;Sedenta por Garganta Profunda Dessensibilizante Oral Extra Forte 18ml;24.00;Comesticos;imagens/Comesticos/Sedenta_por_Garganta_Profunda_Dessensibilizante_Oral_Extra_Forte_18ml.png;;ATIVO;NAO;;8.00
-gel-adstringente-sempre-virgem;Gel Adstringente Sempre Virgem 25g;30.00;Comesticos;imagens/Comesticos/Gel Adstringente Sempre Virgem 25g.png;;ATIVO;SIM;;16.00
-50-tons-liberdade-bolinha;50 Tons de Liberdade Bolinha com Óleo de Massagem Corporal Esquenta e Esfria 3 Unidades;10.00;Comesticos;imagens/Comesticos/50 Tons de Liberdade Bolinha com Óleo de Massagem Corporal Esquenta e Esfria 3 Unidades.png;;ATIVO;SIM;;4.00
-power-honey-10g;Power Honey Energia e Disposição Suplemento Alimentar Liquido Unissex 1 unidade 10g;18.00;Comesticos;imagens/Comesticos/Power Honey Energia e Disposição Suplemento Alimentar Liquido Unissex 1 unidade 10g.png;;ATIVO;SIM;;130.00
-hot-ball-xana-loka;Hot Ball Xana Loka Esquenta Esfria e Vibra;14.00;Comesticos;imagens/Comesticos/Hot Ball Xana Loka Esquenta Esfria e Vibra.png;;ATIVO;SIM;;4.00
-uisquenta-bolinhas-capsula;Uisquenta Bolinhas em Cápsula 3 Unidades;10.00;Comesticos;imagens/Comesticos/Uisquenta Bolinhas em Cápsula 3 Unidades.png;;ATIVO;SIM;;4.00
-cliv-intt-dessensibilizante-anal;Cliv Intt Dessensibilizante Anal 17g;75.00;Comesticos;imagens/Comesticos/Cliv Intt Dessensibilizante Anal 17g .png;;ATIVO;;;60.00
-love-lub-lapilove;Love Lub LapiLove Lubrificante Corporal Beijável 60g;50.00;Comesticos;imagens/Comesticos/Love Lub LapiLove Lubrificante Corporal Beijável 60g.png;;ATIVO;SIM;;19.00
-babasoul-sexy-hidratante;Babasoul Sexy Hidratante Beijável 280ml;75.00;Comesticos;imagens/Comesticos/Babasoul Sexy Hidratante Beijável 280ml.png;;ATIVO;;;60.00
-vibration-gel-power-mel;Vibration Gel Excitante que Vibra Power Sabor Mel 17ml;110.00;Comesticos;imagens/Comesticos/Vibration Gel Excitante que Vibra Power Sabor Mel 17ml.png;;ATIVO;;;75.00
-vibration-gel-chiclete;Vibration Gel Excitante que Vibra Sabor Chiclete 17ml;100.00;Comesticos;imagens/Comesticos/Vibration Gel Excitante que Vibra Sabor Chiclete 17ml.png;;ATIVO;;;75.00
-babalub-lubrificante-beijavel;Babalub Lubrificante Beijável à Base d'Água 50ml;60.00;Comesticos;imagens/Comesticos/Babalub_Lubrificante_Beijável_à_Base_d_Água_50ml.png;;ATIVO;;;34.00
-gel-clitoriano-deborah-secco;Gel Clitoriano Aquece Pulsa e Vibra 17g Linha Deborah Secco;120.00;Comesticos;imagens/Comesticos/Gel Clitoriano Aquece Pulsa e Vibra 17g Linha Deborah Secco.png;;ATIVO;;;70.00
-blow-girl-virilha-320ml;Blow Girl Gel Aromatizante Beijável Para Virilha 320ml;60.00;Comesticos;imagens/Comesticos/Blow Girl Gel Aromatizante Beijável Para Virilha 320ml.png;;ATIVO;;;70.00
-lis-in-gel-30g;LIS-In Gel Dessensibilizante Anal 30g;55.00;Comesticos;imagens/Comesticos/LIS-In Gel Dessensibilizante Anal 30g.png;;ATIVO;;;
-vela-beijavel-algodao-doce-50g;Vela Beijável Algodão Doce Hot para Massagem 50g;40.00;Acessorios;imagens/Acessorios/Vela Beijável Algodão Doce Hot para Massagem 50g.png;;ATIVO;NAO;;21.37
-fogo-da-paixao-vela-20g;Fogo da Paixão Vela de Massagem Beijável com Glitter 20g;30.00;Acessorios;imagens/Acessorios/Fogo da Paixão Vela de Massagem Beijável com Glitter 20g.png;;ATIVO;NAO;;11.11
-funny-egg-masturbador;Funny Egg Masturbador Masculino Formato Vagina em Cyberskin;40.00;Acessorios;imagens/Acessorios/Funny Egg Masturbador Masculino Formato Vagina em Cyberskin.png;;ATIVO;SIM;;
+id;nome;preco;categoria;imagem;imagens;status;mais_vendido;observacoes;preco_atacado;descricao
+1;Vibrador Ponto G em Formato de Golfinho em ABS;35.00;Vibradores;imagens/Vibradores/001 - Vibrador Ponto G em Formato de Golfinho em ABS.png;;ATIVO;NAO;;6.50;;
+2;Basebal Bat Vibrador com Apar?ncia Real?stica com 10 Modos Vai e Vem e Vibra??o;225.00;Vibradores;imagens/Vibradores/Basebal Bat Vibrador com Apar?ncia Real?stica com 10 Modos Vai e Vem e Vibra??o.png;;ATIVO;NAO;Bateria recarregavel via cabo USB;180.00;;
+3;Bullet Vibrat?rio com 10 Modos de Vibra??o Recarreg?vel e Controle por Aplicativo;80.00;Vibradores;imagens/Vibradores/Bullet Vibrat?rio com 10 Modos de Vibra??o Recarreg?vel e Controle por Aplicativo.png;;ATIVO;NAO;Bateria recarregavel via cabo USB;45.00;;
+4;Estimulador Feminino Porquinho com 10 Modos de Ondas de Press?o;145.00;Vibradores;imagens/Vibradores/Estimulador Feminino Porquinho com 10 Modos de Ondas de Press?o.png;;ATIVO;NAO;Bateria recarregavel via cabo USB;70.00;;
+5;Lilo Vibrador Varinha M?gica com 10 Modos de Vibra??es;110.00;Vibradores;imagens/Vibradores/Lilo Vibrador Varinha M?gica com 10 Modos de Vibra??es .png;;ATIVO;SIM;Bateria recarregavel via cabo USB;70.00;;
+6;Lipstick Vibe Vibrador em Formato de Batom Vibra??o;30.00;Vibradores;imagens/Vibradores/Lipstick Vibe Vibrador em Formato de Batom Vibra??o.png;;ATIVO;NAO;;10.00;;
+7;Magesty Vibrador de Calcinha 9 Modos de Pulsa??o Controle Via APP;180.00;Vibradores;imagens/Vibradores/Magesty Vibrador de Calcinha 9 Modos de Pulsa??o Controle Via APP.png;;ATIVO;SIM;;100.00;;
+8;Mini Toy Vibrador Varinha M?gica com 20 Modos de Vibra??es e 8 N?veis e Velocidade;75.00;Vibradores;imagens/Vibradores/Mini Toy Vibrador Varinha M?gica com 20 Modos de Vibra??es e 8 N?veis e Velocidade.png;;ATIVO;NAO;;50.00;;
+9;Pretty Love Abner Bullet Wireless Via Bluetooth e 12 Modos de Vibra??o;170.00;Vibradores;imagens/Vibradores/Pretty Love Abner Bullet Wireless Via Bluetooth e 12 Modos de Vibra??o.png;;ATIVO;NAO;;86.00;;
+10;Sophie Vibrador Formato de Rosa com 10 Modos de Vibracao, Vai e Vem e Pulsacao;130.00;Vibradores;imagens/Vibradores/Sophie Vibrador Formato de Rosa com 10 Modos de Vibracao, Vai e Vem e Pulsacao.png;;ATIVO;NAO;;70.00;;
+11;Vibrador Bullet Hot Flowers;85.00;Vibradores;imagens/Vibradores/Vibrador Bullet Hot Flowers.png;;ATIVO;NAO;;45.00;;
+kuloko-gel;Kuloko Gel Dessensibilizante e Excitante Anal Linha Brasileirinhos 15g;20.00;Comesticos;imagens/Comesticos/Kuloko Gel Dessensibilizante e Excitante Anal Linha Brasileirinhos 15g.png;;ATIVO;SIM;;6.50;;
+xana-loka-gel;Xana Loka Gel Excitante Feminino Linha Brasileirinhos 15g;20.00;Comesticos;imagens/Comesticos/Xana Loka Gel Excitante Feminino Linha Brasileirinhos 15g.png;;ATIVO;SIM;;6.50;;
+chabata;Chabata;79.90;Fetiche_Sado;imagens/Fetiche_Sado/Chabata.png;;ATIVO;NAO;;;;
+chicote;Chicote;89.90;Fetiche_Sado;imagens/Fetiche_Sado/Chicote.png;;ATIVO;NAO;;;;
+corda;Corda;59.90;Fetiche_Sado;imagens/Fetiche_Sado/Corda.png;;ATIVO;NAO;;;;
+kit-sado;Kit Sado;149.90;Fetiche_Sado;imagens/Fetiche_Sado/Kit Sado.png;;ATIVO;NAO;;;;
+sado;Sado;99.90;Fetiche_Sado;imagens/Fetiche_Sado/Sado.png;;ATIVO;NAO;;;;
+lingerie-branco-fio;Lingerie Branco Fio (Frente e Costas);129.90;Lingerie;;imagens/Lingerie/branco fio1.png|imagens/Lingerie/brancio fio2.png;ATIVO;NAO;;;;
+lingerie-parte;Lingerie Parte (Frente e Costas);99.90;Lingerie;;imagens/Lingerie/parte1.webp|imagens/Lingerie/parte2.webp;ATIVO;NAO;;;;
+lingerie-pluz;Lingerie Pluz (Frente e Costas);99.90;Lingerie;;imagens/Lingerie/pluz1.webp|imagens/Lingerie/pluz2.webp;ATIVO;NAO;;;;
+lingerie-hl074-rosa;Lingerie Rosa Claro com Branco;79.90;Lingerie;imagens/Lingerie/HL074-U-Rosa-Claro-com-Branco_1-.webp;;ATIVO;NAO;;;;
+lingerie-hl074-vermelho;Lingerie Vermelho com Preto;79.90;Lingerie;imagens/Lingerie/HL074-U-Vermelho-com-Preto_1-.webp;;ATIVO;NAO;;;;
+lingerie-hl680-vermelho;Lingerie Vermelho;99.90;Lingerie;imagens/Lingerie/HL680-P-Vermelho_1.webp;;ATIVO;NAO;;;;
+lingerie-hl680-preto;Lingerie Preto;99.90;Lingerie;imagens/Lingerie/HL680-U-Preto_2.webp;;ATIVO;NAO;;;;
+lingerie-hl717-pink;Lingerie Pink;94.90;Lingerie;imagens/Lingerie/HL717-U-Pink_1-removebg-preview.png;;ATIVO;NAO;;;;
+lingerie-hl717-preto;Lingerie Preto HL717;94.90;Lingerie;imagens/Lingerie/HL717-U-Preto_2-removebg-preview.png;;ATIVO;NAO;;;;
+lingerie-hl772-azul;Lingerie Azul;94.90;Lingerie;imagens/Lingerie/HL772-U-Azul_1.webp;;ATIVO;NAO;;;;
+lingerie-hl772-vermelho;Lingerie Vermelho HL772;94.90;Lingerie;imagens/Lingerie/HL772-U-Vermelho_2.webp;;ATIVO;NAO;;;;
+12;Vibrador em Formato de pincel com 8 Modos de Vibra??o;120.00;Vibradores;imagens/Vibradores/Vibrador em Formato de pincel com 8 Modos de Vibra??o.png;;ATIVO;NAO;;50.00;;
+13;Female Vibrator Vibrador Ponto G com 30 Modos de Vibra??o;110.00;Vibradores;imagens/Vibradores/Female Vibrator Vibrador Ponto G com 30 Modos de Vibra??o.png;;ATIVO;NAO;;66.00;;
+14;Vibrador Ponto G com Estimulador de Clit?ris L?ngua com 10 Modos de Vibra??o e Aquecimento;170.00;Vibradores;imagens/Vibradores/Vibrador Ponto G com Estimulador de Clit?ris L?ngua com 10 Modos de Vibra??o e Aquecimento.png;;ATIVO;NAO;;96.00;;
+15;Vibrador Recarreg?vel com Glande e Estimulador Clitoriano Coelho com 12 Modos de Vibra??o;160.00;Vibradores;imagens/Vibradores/Vibrador Recarreg?vel com Glande e Estimulador Clitoriano Coelho com 12 Modos de Vibra??o.png;;ATIVO;NAO;;70.00;;
+calcinha-comestivel-yummy;Calcinha Comestï¿½vel Yummy 1 Unidade;40.00;Comesticos;imagens/Comesticos/Calcinha Comestï¿½vel Yummy 1 Unidade.png;;ATIVO;NAO;;25.00;;
+aromatizante-bucal-power-black-ice;Aromatizante Bucal Power Black Ice Spray 18ml Hot Flowers;30.00;Comesticos;imagens/Comesticos/Aromatizante Bucal Power Black Ice Spray 18ml Hot Flowers.png;;ATIVO;NAO;;15.00;;
+maxx-babaloo-caneta-a;Maxx Babaloo Caneta Comestï¿½vel Bala Lï¿½quida em Gel 20g;10.00;Comesticos;imagens/Comesticos/Maxx_Babaloo_Caneta_Comestï¿½vel_Bala_Lï¿½quida_em_Gel_20g.png;;ATIVO;NAO;Melancia e tutti-frutti;5.00;;
+karamela-tapa-sexo-comestivel;Karamela Tapa Sexo Comestï¿½vel Formato Coraï¿½ï¿½o;25.00;Comesticos;imagens/Comesticos/Karamela Tapa Sexo Comestï¿½vel Formato Coraï¿½ï¿½o.png;;ATIVO;NAO;;11.00;;
+gel-termico-beijavel-yummy;Gel Tï¿½rmico Beijï¿½vel Yummy 15ml;13.00;Comesticos;imagens/Comesticos/Gel Tï¿½rmico Beijï¿½vel Yummy 15ml.png;;ATIVO;NAO;;3.00;;
+sedenta-garganta-profunda;Sedenta por Garganta Profunda Dessensibilizante Oral Extra Forte 18ml;24.00;Comesticos;imagens/Comesticos/Sedenta_por_Garganta_Profunda_Dessensibilizante_Oral_Extra_Forte_18ml.png;;ATIVO;NAO;;8.00;;
+gel-adstringente-sempre-virgem;Gel Adstringente Sempre Virgem 25g;30.00;Comesticos;imagens/Comesticos/Gel Adstringente Sempre Virgem 25g.png;;ATIVO;SIM;;16.00;;
+50-tons-liberdade-bolinha;50 Tons de Liberdade Bolinha com ï¿½leo de Massagem Corporal Esquenta e Esfria 3 Unidades;10.00;Comesticos;imagens/Comesticos/50 Tons de Liberdade Bolinha com ï¿½leo de Massagem Corporal Esquenta e Esfria 3 Unidades.png;;ATIVO;SIM;;4.00;;
+power-honey-10g;Power Honey Energia e Disposiï¿½ï¿½o Suplemento Alimentar Liquido Unissex 1 unidade 10g;18.00;Comesticos;imagens/Comesticos/Power Honey Energia e Disposiï¿½ï¿½o Suplemento Alimentar Liquido Unissex 1 unidade 10g.png;;ATIVO;SIM;;130.00;;
+hot-ball-xana-loka;Hot Ball Xana Loka Esquenta Esfria e Vibra;14.00;Comesticos;imagens/Comesticos/Hot Ball Xana Loka Esquenta Esfria e Vibra.png;;ATIVO;SIM;;4.00;;
+uisquenta-bolinhas-capsula;Uisquenta Bolinhas em Cï¿½psula 3 Unidades;10.00;Comesticos;imagens/Comesticos/Uisquenta Bolinhas em Cï¿½psula 3 Unidades.png;;ATIVO;SIM;;4.00;;
+cliv-intt-dessensibilizante-anal;Cliv Intt Dessensibilizante Anal 17g;75.00;Comesticos;imagens/Comesticos/Cliv Intt Dessensibilizante Anal 17g .png;;ATIVO;;;60.00;;
+love-lub-lapilove;Love Lub LapiLove Lubrificante Corporal Beijï¿½vel 60g;50.00;Comesticos;imagens/Comesticos/Love Lub LapiLove Lubrificante Corporal Beijï¿½vel 60g.png;;ATIVO;SIM;;19.00;;
+babasoul-sexy-hidratante;Babasoul Sexy Hidratante Beijï¿½vel 280ml;75.00;Comesticos;imagens/Comesticos/Babasoul Sexy Hidratante Beijï¿½vel 280ml.png;;ATIVO;;;60.00;;
+vibration-gel-power-mel;Vibration Gel Excitante que Vibra Power Sabor Mel 17ml;110.00;Comesticos;imagens/Comesticos/Vibration Gel Excitante que Vibra Power Sabor Mel 17ml.png;;ATIVO;;;75.00;;
+vibration-gel-chiclete;Vibration Gel Excitante que Vibra Sabor Chiclete 17ml;100.00;Comesticos;imagens/Comesticos/Vibration Gel Excitante que Vibra Sabor Chiclete 17ml.png;;ATIVO;;;75.00;;
+babalub-lubrificante-beijavel;Babalub Lubrificante Beijï¿½vel ï¿½ Base d'ï¿½gua 50ml;60.00;Comesticos;imagens/Comesticos/Babalub_Lubrificante_Beijï¿½vel_ï¿½_Base_d_ï¿½gua_50ml.png;;ATIVO;;;34.00;;
+gel-clitoriano-deborah-secco;Gel Clitoriano Aquece Pulsa e Vibra 17g Linha Deborah Secco;120.00;Comesticos;imagens/Comesticos/Gel Clitoriano Aquece Pulsa e Vibra 17g Linha Deborah Secco.png;;ATIVO;;;70.00;;
+blow-girl-virilha-320ml;Blow Girl Gel Aromatizante Beijï¿½vel Para Virilha 320ml;60.00;Comesticos;imagens/Comesticos/Blow Girl Gel Aromatizante Beijï¿½vel Para Virilha 320ml.png;;ATIVO;;;70.00;;
+lis-in-gel-30g;LIS-In Gel Dessensibilizante Anal 30g;55.00;Comesticos;imagens/Comesticos/LIS-In Gel Dessensibilizante Anal 30g.png;;ATIVO;;;;;
+vela-beijavel-algodao-doce-50g;Vela Beijï¿½vel Algodï¿½o Doce Hot para Massagem 50g;40.00;Acessorios;imagens/Acessorios/Vela Beijï¿½vel Algodï¿½o Doce Hot para Massagem 50g.png;;ATIVO;NAO;;21.37;Acenda o clima e transforme o momento. Vela beijável com aroma de algodão doce que derrete em óleo morno para massagem corporal ? hidrata a pele e convida ao toque. Ideal para esquentar a relação e explorar novas sensações com leveza. Destaque: derrete em óleo para massagem, sabor beijável e momento íntimo.
+fogo-da-paixao-vela-20g;Fogo da Paixï¿½o Vela de Massagem Beijï¿½vel com Glitter 20g;30.00;Acessorios;imagens/Acessorios/Fogo da Paixï¿½o Vela de Massagem Beijï¿½vel com Glitter 20g.png;;ATIVO;NAO;;11.11;;
+funny-egg-masturbador;Funny Egg Masturbador Masculino Formato Vagina em Cyberskin;40.00;Acessorios;imagens/Acessorios/Funny Egg Masturbador Masculino Formato Vagina em Cyberskin.png;;ATIVO;SIM;;;;

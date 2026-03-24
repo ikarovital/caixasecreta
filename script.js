@@ -359,6 +359,14 @@ function urlImagem(src) {
   try { return encodeURI(src); } catch (e) { return src; }
 }
 
+function escaparHtml(str) {
+  return String(str == null ? '' : str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 function getTopMaisVendidosIds(n) {
   const procuras = getProcuras();
   return PRODUTOS.map(p => ({ id: p.id, count: procuras[p.id] || 0 }))
@@ -382,12 +390,16 @@ function montarCardProduto(p, opts) {
   const selosHtml = selos.length ? '<div class="produto-selos">' + selos.join('') + '</div>' : '';
   const msgWhatsApp = encodeURIComponent('Olá! Gostaria de mais informações sobre: ' + p.nome);
   const linkWhatsApp = 'https://wa.me/' + WHATSAPP_NUMERO + '?text=' + msgWhatsApp;
+  const descHtml = p.descricao
+    ? '<p class="produto-descricao">' + escaparHtml(p.descricao) + '</p>'
+    : '';
   return (
     '<article class="produto-card" data-id="' + p.id + '">' +
       selosHtml +
       '<div class="produto-img-wrap ' + (imgs.length > 1 ? 'produto-img-wrap--dupla' : '') + '">' + imgHtml + '</div>' +
       '<div class="produto-info">' +
         '<h3 class="produto-nome">' + p.nome + '</h3>' +
+        descHtml +
         '<p class="produto-preco">' + formatarPreco(p.preco) + '</p>' +
         '<div class="produto-botoes">' +
           '<button type="button" class="btn btn-carrinho" data-id="' + p.id + '">Adicionar ao carrinho</button>' +
@@ -1231,10 +1243,15 @@ function montarProdutosPromoDaPlanilha(ofertas) {
 // Carrega dados da planilha (dados/produtos.json). Por id: atualiza ou adiciona produto com os valores da planilha.
 async function carregarDadosPlanilha() {
   let mapaComesticosImg = {};
+  let mapaDescricoesProduto = {};
   try {
     const rMap = await fetch('dados/comesticos_imagens.json');
     if (rMap.ok) mapaComesticosImg = await rMap.json();
   } catch (eMap) {}
+  try {
+    const rDesc = await fetch('dados/descricoes_produtos.json');
+    if (rDesc.ok) mapaDescricoesProduto = await rDesc.json();
+  } catch (eDesc) {}
 
   try {
     let linhas = [];
@@ -1290,6 +1307,11 @@ async function carregarDadosPlanilha() {
 
       if (imagensLista.length > 0) item.imagens = imagensLista;
       else if (imagemUnica) item.imagem = imagemUnica;
+
+      var descPlanilha = row.descricao != null ? textoSeguro(row.descricao) : '';
+      var descJson = mapaDescricoesProduto[idOriginal] ? textoSeguro(mapaDescricoesProduto[idOriginal]) : '';
+      if (descPlanilha) item.descricao = descPlanilha;
+      else if (descJson) item.descricao = descJson;
 
       novos.push(item);
     }
