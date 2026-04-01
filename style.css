@@ -117,6 +117,40 @@ body::before {
   border-color: rgba(168, 85, 247, 0.35);
 }
 
+.termos-page .termos-main {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+.termos-page .termos-titulo {
+  margin-bottom: 0.75rem;
+}
+
+.termos-page .termos-intro {
+  font-family: var(--fonte-moderna);
+  font-size: 1.02rem;
+  line-height: 1.7;
+  opacity: 0.92;
+  margin-bottom: 2rem;
+}
+
+.termos-page .termos-secao h2 {
+  font-family: var(--fonte-elegante);
+  font-weight: 600;
+  font-size: 1.35rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(168, 85, 247, 0.35);
+  padding-bottom: 0.5rem;
+}
+
+.termos-page .termos-secao ul {
+  margin: 0.5rem 0 1rem 1.25rem;
+}
+
+.termos-page .termos-secao li {
+  margin-bottom: 0.4rem;
+}
+
 .header,
 .section,
 .footer,
