@@ -283,6 +283,26 @@ function obterCategorias() {
   return ['todos', ...lista];
 }
 
+function categoriaDoDiaParaOfertas() {
+  // Domingo=0 ... Sábado=6
+  const d = new Date().getDay();
+  const mapa = {
+    0: 'Acessorios',   // Domingo
+    1: 'Lingerie',     // Segunda
+    2: 'Fetiche_Sado', // Terça
+    3: 'Comesticos',   // Quarta
+    4: 'Vibradores',   // Quinta
+    5: 'Vibradores',   // Sexta
+    6: 'Acessorios'    // Sábado
+  };
+  return mapa[d] || 'Vibradores';
+}
+
+function aplicarCategoriaDoDia() {
+  // Sempre inicia o catálogo na categoria do dia.
+  categoriaAtiva = categoriaDoDiaParaOfertas();
+}
+
 function renderizarAbas() {
   if (!categoriaTabs) return;
   const categorias = obterCategorias();
@@ -302,21 +322,10 @@ function renderizarAbas() {
     });
   });
 
+  const alvo = categoriaTabs.querySelector('.categoria-tab[data-categoria="' + categoriaAtiva + '"]');
   const primeiro = categoriaTabs.querySelector('.categoria-tab');
-  if (primeiro) primeiro.classList.add('ativo');
-}
-
-// ========== PROCURAS (mais procurado) ==========
-function getProcuras() {
-  try {
-    return JSON.parse(localStorage.getItem('caixasecreta_procuras')) || {};
-  } catch (e) { return {}; }
-}
-
-function incrementarProcura(id) {
-  const p = getProcuras();
-  p[id] = (p[id] || 0) + 1;
-  localStorage.setItem('caixasecreta_procuras', JSON.stringify(p));
+  if (alvo) alvo.classList.add('ativo');
+  else if (primeiro) primeiro.classList.add('ativo');
 }
 
 // ========== PRODUTOS ==========
@@ -340,7 +349,6 @@ function precoNumerico(produto) {
 }
 
 function ordenarProdutos(lista) {
-  const procuras = getProcuras();
   const copia = lista.slice();
   switch (ordenacaoAtiva) {
     case 'menor_preco':
@@ -348,13 +356,14 @@ function ordenarProdutos(lista) {
     case 'maior_preco':
       return copia.sort((a, b) => precoNumerico(b) - precoNumerico(a));
     case 'mais_vendidos':
-      return copia.sort((a, b) => (procuras[b.id] || 0) - (procuras[a.id] || 0) || precoNumerico(a) - precoNumerico(b));
+      // "Mais vendidos" aqui vira um fallback de ordenação (mantém estabilidade pelo preço).
+      return copia.sort((a, b) => precoNumerico(a) - precoNumerico(b));
     case 'data_lancamento':
       return copia.sort((a, b) => PRODUTOS.indexOf(a) - PRODUTOS.indexOf(b));
     case 'melhor_desconto':
-      return copia.sort((a, b) => (procuras[b.id] || 0) - (procuras[a.id] || 0) || precoNumerico(a) - precoNumerico(b));
+      return copia.sort((a, b) => (b.desconto || 0) - (a.desconto || 0) || precoNumerico(a) - precoNumerico(b));
     default:
-      return copia.sort((a, b) => (procuras[b.id] || 0) - (procuras[a.id] || 0) || precoNumerico(a) - precoNumerico(b));
+      return copia.sort((a, b) => precoNumerico(a) - precoNumerico(b));
   }
 }
 
@@ -463,15 +472,6 @@ function escaparHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
-function getTopMaisVendidosIds(n) {
-  const procuras = getProcuras();
-  return PRODUTOS.map(p => ({ id: p.id, count: procuras[p.id] || 0 }))
-    .sort((a, b) => b.count - a.count)
-    .filter(x => x.count > 0)
-    .slice(0, n)
-    .map(x => x.id);
-}
-
 function montarCardProduto(p, opts) {
   opts = opts || {};
   const nomeEx = textoSemCaracteresEspeciais(p.nome);
@@ -481,9 +481,8 @@ function montarCardProduto(p, opts) {
   const imgHtml = imgs.length ? imgs.map((src, i) =>
     '<img src="' + urlImagem(src) + '" data-fallback="' + urlImagem(fallbackPadrao) + '" alt="' + escaparHtml(nomeEx + ' ' + (i === 0 ? '(frente)' : '(costas)')) + '" loading="lazy" decoding="async" onerror="if(this.dataset.fallback&&this.dataset.fallback!==this.getAttribute(\'src\')){this.setAttribute(\'src\',this.dataset.fallback);return;}this.style.display=\'none\';this.parentElement.style.background=\'var(--fundo)\'">'
   ).join('') : '<div class="produto-img-placeholder"></div>';
-  const topIds = opts.topMaisVendidosIds || [];
   const selos = [];
-  if (p.maisVendido || topIds.indexOf(p.id) >= 0) selos.push('<span class="produto-selo mais-vendido">Mais vendido</span>');
+  if (p.maisVendido) selos.push('<span class="produto-selo mais-vendido">Mais vendido</span>');
   if (p.desconto != null && p.desconto > 0) selos.push('<span class="produto-selo desconto">' + p.desconto + '% OFF</span>');
   const selosHtml = selos.length ? '<div class="produto-selos">' + selos.join('') + '</div>' : '';
   const msgWhatsApp = encodeURIComponent('Olá! Gostaria de mais informações sobre: ' + nomeEx);
@@ -510,9 +509,8 @@ function montarCardProduto(p, opts) {
 
 function renderizarProdutos() {
   if (!produtosGrid) return;
-  const topIds = getTopMaisVendidosIds(5);
   const lista = ordenarProdutos(produtosFiltrados());
-  produtosGrid.innerHTML = lista.map(p => montarCardProduto(p, { topMaisVendidosIds: topIds })).join('');
+  produtosGrid.innerHTML = lista.map(p => montarCardProduto(p)).join('');
 
   produtosGrid.querySelectorAll('.btn-carrinho').forEach(btn => {
     btn.addEventListener('click', () => adicionarAoCarrinho(btn.dataset.id));
@@ -522,13 +520,13 @@ function renderizarProdutos() {
 function renderizarMaisVendidos() {
   const grid = document.getElementById('mais-vendidos-grid');
   if (!grid) return;
-  const topIds = getTopMaisVendidosIds(6);
-  if (topIds.length === 0) {
-    grid.innerHTML = '<p class="mais-vendidos-vazio">Nenhuma compra ainda. Seja o primeiro a adicionar ao carrinho!</p>';
+  const produtos = PRODUTOS.filter(function (p) { return p && p.maisVendido; });
+  if (produtos.length === 0) {
+    grid.innerHTML = '<p class="mais-vendidos-vazio">Sem itens marcados como “Mais vendido” na planilha.</p>';
     return;
   }
-  const produtos = topIds.map(id => PRODUTOS.find(p => p.id === id)).filter(Boolean);
-  grid.innerHTML = produtos.map(p => montarCardProduto(p, { topMaisVendidosIds: topIds })).join('');
+  const exibidos = produtos.slice(0, 6);
+  grid.innerHTML = exibidos.map(p => montarCardProduto(p)).join('');
   grid.querySelectorAll('.btn-carrinho').forEach(btn => {
     btn.addEventListener('click', () => adicionarAoCarrinho(btn.dataset.id));
   });
@@ -572,7 +570,6 @@ function configurarBusca() {
 function adicionarAoCarrinho(id) {
   const produto = PRODUTOS.find(p => p.id === id);
   if (!produto) return;
-  incrementarProcura(id);
   ultimoAdicionadoId = id;
   const img = (produto.imagens && produto.imagens[0]) || produto.imagem;
   const item = carrinho.find(i => i.id === id);
@@ -580,7 +577,6 @@ function adicionarAoCarrinho(id) {
   else carrinho.push({ id: produto.id, nome: produto.nome, preco: produto.preco, imagem: img, quantidade: 1 });
   salvarCarrinho();
   renderizarCarrinho();
-  renderizarMaisVendidos();
   updateContadorCarrinho();
 }
 
@@ -1516,7 +1512,7 @@ function init() {
   }
 
   atualizarTituloOfertas();
-  renderizarOfertasSemana();
+  aplicarCategoriaDoDia();
   renderizarAbas();
   configurarOrdenacao();
   configurarBusca();
