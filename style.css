@@ -83,6 +83,40 @@ body::before {
   z-index: 0;
 }
 
+/* ========== TERMOS (página) ========== */
+.termos-page {
+  color: var(--texto-sobre-roxo);
+}
+
+.termos-page .termos-voltar,
+.termos-page .termos-intro,
+.termos-page .termos-conteudo,
+.termos-page .termos-secao,
+.termos-page .termos-secao p,
+.termos-page .termos-secao li {
+  color: var(--texto-sobre-roxo);
+}
+
+.termos-page h1,
+.termos-page .termos-secao h2 {
+  color: var(--texto-sobre-roxo);
+}
+
+.termos-page a {
+  color: rgba(243, 232, 255, 0.92);
+  text-decoration-color: rgba(243, 232, 255, 0.55);
+}
+
+.termos-page a:hover {
+  color: #fff;
+  text-decoration-color: rgba(255, 255, 255, 0.75);
+}
+
+.termos-page .contato-destaque {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(168, 85, 247, 0.35);
+}
+
 .header,
 .section,
 .footer,
