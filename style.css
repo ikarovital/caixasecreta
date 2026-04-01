@@ -782,6 +782,45 @@ a:hover {
   outline: none;
 }
 
+/* ========== OFERTAS DA SEMANA (rotativo) ========== */
+.ofertas-semana {
+  background: linear-gradient(180deg, rgba(255, 77, 141, 0.05) 0%, rgba(123, 44, 191, 0.06) 100%);
+}
+
+.ofertas-semana-header {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.ofertas-semana-titulo {
+  margin-bottom: 0.6rem;
+}
+
+.ofertas-semana-subtitulo {
+  font-family: var(--fonte-moderna);
+  color: rgba(243, 232, 255, 0.86);
+  max-width: 56ch;
+  margin: 0 auto;
+}
+
+.ofertas-semana-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.ofertas-semana-grid .produto-card {
+  margin: 0;
+}
+
+.ofertas-semana-grid .produto-img-wrap {
+  height: 200px;
+}
+
+.ofertas-semana-grid .produto-nome {
+  font-size: 1.05rem;
+}
+
 .produtos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));

@@ -228,6 +228,7 @@ const WHATSAPP_NUMERO = '5511918535361';
 /** Incrementar ao alterar a planilha para o navegador não usar CSV em cache. */
 const VERSAO_PLANILHA_PRODUTOS = '10';
 const MOSTRAR_PROMO_RELAMPAGO = false;
+const MOSTRAR_OFERTAS_SEMANA = true;
 
 // ========== PROMOÇÃO RELÂMPAGO ==========
 // Data/hora em que a promoção termina (edite aqui: ano, mês-1, dia, hora, min, seg)
@@ -355,6 +356,99 @@ function ordenarProdutos(lista) {
     default:
       return copia.sort((a, b) => (procuras[b.id] || 0) - (procuras[a.id] || 0) || precoNumerico(a) - precoNumerico(b));
   }
+}
+
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = a[i];
+    a[i] = a[j];
+    a[j] = tmp;
+  }
+  return a;
+}
+
+function categoriaDoDiaParaOfertasSemana() {
+  // Domingo=0 ... Sábado=6
+  const d = new Date().getDay();
+  const mapa = {
+    0: 'Acessorios',   // Domingo
+    1: 'Lingerie',     // Segunda
+    2: 'Fetiche_Sado', // Terça
+    3: 'Comesticos',   // Quarta (pedido do usuário)
+    4: 'Vibradores',   // Quinta (pedido do usuário)
+    5: 'Vibradores',   // Sexta
+    6: 'Acessorios'    // Sábado
+  };
+  return mapa[d] || 'Vibradores';
+}
+
+function labelDiaSemana(diaIdx) {
+  const dias = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+  return dias[diaIdx] || '';
+}
+
+function labelCategoria(categoria) {
+  const labels = {
+    Vibradores: 'Vibradores',
+    Comesticos: 'Cosméticos',
+    Acessorios: 'Acessórios',
+    Lingerie: 'Lingerie',
+    Fetiche_Sado: 'Fetiche & Sado'
+  };
+  return labels[categoria] || categoria;
+}
+
+function renderizarOfertasSemana() {
+  const secao = document.getElementById('ofertas-semana');
+  const grid = document.getElementById('ofertas-semana-grid');
+  if (!grid) return;
+  if (!MOSTRAR_OFERTAS_SEMANA) {
+    if (secao) secao.hidden = true;
+    return;
+  }
+
+  const titulo = document.getElementById('ofertas-semana-titulo');
+  const subtitulo = document.getElementById('ofertas-semana-subtitulo');
+  const diaIdx = new Date().getDay();
+  const categoria = categoriaDoDiaParaOfertasSemana();
+
+  if (titulo) titulo.textContent = 'Ofertas da semana';
+  if (subtitulo) {
+    subtitulo.textContent =
+      'Hoje é ' + labelDiaSemana(diaIdx) + ': rodando produtos de ' + labelCategoria(categoria) + '.';
+  }
+
+  const pool = PRODUTOS.filter(function (p) { return p && p.categoria === categoria; });
+  if (!pool.length) {
+    grid.innerHTML = '<p class="mais-vendidos-vazio">Sem produtos ativos para ' + labelCategoria(categoria) + ' no momento.</p>';
+    return;
+  }
+
+  const lista = shuffleArray(pool).slice(0, Math.min(12, pool.length));
+  const porVez = 3;
+  let idx = 0;
+
+  function render() {
+    const chunk = [];
+    for (let i = 0; i < Math.min(porVez, lista.length); i++) {
+      chunk.push(lista[(idx + i) % lista.length]);
+    }
+    const topIds = getTopMaisVendidosIds(5);
+    grid.innerHTML = chunk.map(function (p) {
+      return montarCardProduto(p, { topMaisVendidosIds: topIds });
+    }).join('');
+    idx = (idx + porVez) % lista.length;
+  }
+
+  if (window.__ofertasSemanaTimer) {
+    clearInterval(window.__ofertasSemanaTimer);
+    window.__ofertasSemanaTimer = null;
+  }
+
+  render();
+  window.__ofertasSemanaTimer = setInterval(render, 6500);
 }
 
 function urlImagem(src) {
@@ -1422,6 +1516,7 @@ function init() {
   }
 
   atualizarTituloOfertas();
+  renderizarOfertasSemana();
   renderizarAbas();
   configurarOrdenacao();
   configurarBusca();
