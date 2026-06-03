@@ -2,8 +2,13 @@
 # Requer: Settings → Pages → Source = GitHub Actions
 name: Deploy frontend (GitHub Pages)
 
-# Publicação manual — evita colocar no ar sem aviso (Actions → Run workflow).
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+      - 'CNAME'
+      - '.github/workflows/deploy-frontend-pages.yml'
   workflow_dispatch:
 
 permissions:
@@ -34,8 +39,10 @@ jobs:
           npm test
           npm run build
 
-      - name: Incluir CNAME no dist
-        run: cp CNAME frontend/dist/CNAME
+      - name: CNAME e fallback SPA (GitHub Pages)
+        run: |
+          cp CNAME frontend/dist/CNAME
+          cp frontend/dist/index.html frontend/dist/404.html
 
       - uses: actions/upload-pages-artifact@v3
         with:
