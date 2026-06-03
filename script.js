@@ -1,5 +1,5 @@
 /**
- * Caixa Secreta – Catálogo e carrinho com finalização via WhatsApp
+ * Clube – Catálogo e carrinho com finalização via WhatsApp
  * Número WhatsApp: 5511918535361
  *
  * ESTRUTURA DO SCRIPT:
@@ -461,7 +461,10 @@ function renderizarOfertasSemana() {
 }
 
 function urlImagem(src) {
-  try { return encodeURI(src); } catch (e) { return src; }
+  if (!src || typeof src !== 'string') return '';
+  const s = src.trim();
+  if (/^(javascript|data|vbscript):/i.test(s) || s.includes('..')) return '';
+  try { return encodeURI(s); } catch (e) { return ''; }
 }
 
 function escaparHtml(str) {
@@ -566,6 +569,56 @@ function configurarBusca() {
   });
 }
 
+// ========== TOAST (popup carrinho) ==========
+function garantirToastCarrinho() {
+  let el = document.getElementById('toast-carrinho');
+  if (el) return el;
+  el = document.createElement('div');
+  el.id = 'toast-carrinho';
+  el.className = 'toast-carrinho';
+  el.setAttribute('role', 'status');
+  el.setAttribute('aria-live', 'polite');
+  el.innerHTML = `
+    <div class="toast-carrinho-inner">
+      <img class="toast-carrinho-img" alt="" />
+      <div class="toast-carrinho-texto">
+        <p class="toast-carrinho-titulo">Adicionado ao carrinho</p>
+        <p class="toast-carrinho-nome"></p>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(el);
+  return el;
+}
+
+function mostrarToastCarrinho(produto) {
+  if (!produto) return;
+  const el = garantirToastCarrinho();
+  const img = el.querySelector('.toast-carrinho-img');
+  const nome = el.querySelector('.toast-carrinho-nome');
+  const src = (produto.imagens && produto.imagens[0]) || produto.imagem || '';
+  if (img) {
+    if (src) {
+      img.src = urlImagem(src);
+      img.style.display = '';
+    } else {
+      img.removeAttribute('src');
+      img.style.display = 'none';
+    }
+  }
+  if (nome) nome.textContent = textoSemCaracteresEspeciais(produto.nome);
+
+  el.classList.remove('ativo');
+  // força reflow para reiniciar a animação
+  el.offsetHeight;
+  el.classList.add('ativo');
+
+  if (window.__toastCarrinhoTimer) clearTimeout(window.__toastCarrinhoTimer);
+  window.__toastCarrinhoTimer = setTimeout(function () {
+    el.classList.remove('ativo');
+  }, 2200);
+}
+
 // ========== CARRINHO ==========
 function adicionarAoCarrinho(id) {
   const produto = PRODUTOS.find(p => p.id === id);
@@ -578,6 +631,7 @@ function adicionarAoCarrinho(id) {
   salvarCarrinho();
   renderizarCarrinho();
   updateContadorCarrinho();
+  mostrarToastCarrinho(produto);
 }
 
 function updateContadorCarrinho() {
@@ -808,7 +862,7 @@ function atualizarTotalModal() {
   modalTotal.textContent = formatarPreco(total) + (ehPix ? ' (5% OFF no Pix)' : '');
 }
 
-/** Monta a mensagem do pedido (texto puro). Formato: Pedido - Caixa Secreta, Cliente, WhatsApp, CEP, Produtos, Subtotal, Frete, Desconto Pix (se Pix), Total, Forma de pagamento. */
+/** Monta a mensagem do pedido (texto puro). Formato: Pedido - Clube, Cliente, WhatsApp, CEP, Produtos, Subtotal, Frete, Desconto Pix (se Pix), Total, Forma de pagamento. */
 function montarMensagemPedido(nome, whatsapp, cep, formaPagamento) {
   const subtotal = totalCarrinho();
   const frete = freteCalculado !== null ? freteCalculado : 0;
@@ -818,7 +872,7 @@ function montarMensagemPedido(nome, whatsapp, cep, formaPagamento) {
   const total = totalBruto - descontoPix;
 
   var linhas = [
-    'Pedido - Caixa Secreta',
+    'Pedido - Clube',
     '',
     'Cliente: ' + nome,
     'WhatsApp: ' + whatsapp,

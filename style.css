@@ -1,5 +1,5 @@
 /* ============================================
-   Caixa Secreta – Estilo premium, discreto e sensual
+   Clube – Estilo premium, discreto e sensual
    Tema claro e suave (imagens escuras aparecem bem)
    ============================================ */
 
@@ -243,17 +243,19 @@ a:hover {
   text-transform: uppercase;
   color: var(--texto-sobre-roxo);
   line-height: 1.05;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
 }
 
 .slogan {
-  font-family: var(--fonte-logo-slogan);
-  font-size: clamp(1rem, 2.4vw, 1.28rem);
+  font-family: var(--fonte-moderna);
+  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
   font-weight: 400;
-  color: var(--roxo-principal);
-  margin-top: 0.05rem;
+  color: rgba(243, 232, 255, 0.9);
+  margin-top: 0.1rem;
   letter-spacing: 0.02em;
   display: block;
   line-height: 1.05;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
 }
 
 /* Navegação */
@@ -435,6 +437,23 @@ a:hover {
   text-align: center;
   letter-spacing: 0.02em;
   text-shadow: 0 1px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* Padrão: título (Montserrat) + subtítulo (Inter) */
+.section-title {
+  font-family: var(--fonte-logo-titulo);
+  font-weight: 700;
+}
+
+.section-subtitle {
+  font-family: var(--fonte-moderna);
+  font-size: 1.02rem;
+  font-weight: 400;
+  line-height: 1.7;
+  text-align: center;
+  color: rgba(243, 232, 255, 0.86);
+  margin: -1.4rem auto 2rem;
+  max-width: 64ch;
 }
 
 .titulo-ofertas-dia {
@@ -824,21 +843,21 @@ a:hover {
 .ordenacao-label {
   font-family: var(--fonte-moderna);
   font-size: 0.95rem;
-  color: var(--texto);
+  color: rgba(243, 232, 255, 0.9);
   font-weight: 400;
 }
 
 .ordenacao-select {
   font-family: var(--fonte-moderna);
   font-size: 0.95rem;
-  color: var(--texto);
-  background: #fff;
-  border: 1px solid var(--borda);
+  color: rgba(243, 232, 255, 0.95);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(168, 85, 247, 0.35);
   border-radius: var(--raio);
   padding: 0.5rem 2rem 0.5rem 0.75rem;
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b6266' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23f3e8ff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.6rem center;
   transition: border-color var(--transicao);
@@ -846,8 +865,12 @@ a:hover {
 
 .ordenacao-select:hover,
 .ordenacao-select:focus {
-  border-color: var(--roxo-principal);
+  border-color: rgba(255, 77, 141, 0.75);
   outline: none;
+}
+
+.ordenacao-select option {
+  color: #140021;
 }
 
 .produtos-grid {
@@ -1325,6 +1348,63 @@ a:hover {
 
 .footer-links a:hover {
   color: var(--rosa-destaque);
+}
+
+/* ========== TOAST (popup carrinho) ========== */
+.toast-carrinho {
+  position: fixed;
+  left: 50%;
+  bottom: 1.1rem;
+  transform: translateX(-50%) translateY(16px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 200;
+  transition: transform 220ms ease, opacity 220ms ease;
+}
+
+.toast-carrinho.ativo {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast-carrinho-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: min(92vw, 420px);
+  max-width: 92vw;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  background: rgba(20, 0, 33, 0.92);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+}
+
+.toast-carrinho-img {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.toast-carrinho-titulo {
+  font-family: var(--fonte-moderna);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
+  margin: 0 0 0.15rem;
+}
+
+.toast-carrinho-nome {
+  font-family: var(--fonte-produtos);
+  font-size: 0.9rem;
+  color: rgba(243, 232, 255, 0.88);
+  line-height: 1.25;
+  margin: 0;
 }
 
 /* ========== RESPONSIVO (MOBILE-FIRST) ========== */
