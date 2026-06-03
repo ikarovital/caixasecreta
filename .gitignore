@@ -9,3 +9,58 @@ desktop.ini
 *.swp
 *.swo
 *~
+
+# Segredos e ambiente local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets.json
+
+# Node / build
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+
+# Logs e temporários de importação
+*.log
+dados/*.log
+dados/historicos/
+dados/extracao_pdf/
+
+# Fontes internas (PDFs com custo, planilhas mestre, rascunhos)
+dados/*.pdf
+dados/*.xlsx
+dados/*.xls
+dados/*Copia*
+dados/*copia*
+dados/*backup*
+dados/*_antes_*
+dados/imagens/
+dados/fonts/
+
+# Planilha mestre fica só na máquina; no Git use export JSON + imagens em frontend/public
+!dados/planilha_atualizacao_produtos.csv
+!dados/planilha_cores_produtos.csv
+!dados/planilha_ofertas.csv
+
+# Catálogo local grande (site novo usa frontend/src/data + public/importados)
+dados/catalogo_clube_caixa_secreta.pdf
+
+# Caminhos absolutos comuns no Windows (evitar commit acidental)
+post/
+catalogo_caixa_secreta.xlsx
