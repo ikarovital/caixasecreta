@@ -1,6 +1,6 @@
 /**
  * Frete fixo — Grande São Paulo (capital, ABC, litoral).
- * Valores calibrados como estimativa de corrida curta (referência 99 / Uber ~R$ 12–22).
+ * Valores por região da Grande SP (calibrados internamente na loja).
  */
 
 import { FRETE_SP_REGIOES } from './shipping-config.js';

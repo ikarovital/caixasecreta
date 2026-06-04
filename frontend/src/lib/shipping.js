@@ -111,6 +111,6 @@ export async function calculateShipping({ cepDestino, cartItems: _cartItems, sub
     service: `Entrega ${formatRegionLabel(regionId)}`,
     prazo: regional.prazo,
     source: 'regiao_fixa',
-    message: `${formatRegionLabel(regionId)}: R$ ${regional.freight.toFixed(2).replace('.', ',')} (estimativa 99/Uber). ${regional.nota}.`
+    message: `${formatRegionLabel(regionId)}: R$ ${regional.freight.toFixed(2).replace('.', ',')}. ${regional.nota}.`
   };
 }

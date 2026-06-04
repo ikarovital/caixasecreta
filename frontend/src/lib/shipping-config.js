@@ -12,13 +12,13 @@ export const FRETE_GRATIS_UF = 'SP';
  * valores abaixo são estimativa de entrega com margem para o catálogo.
  */
 export const FRETE_SP_REGIOES = {
-  centro: { label: 'Centro', freight: 13, prazo: 1, nota: 'Estimativa tipo 99/Uber — região central' },
-  zona_sul: { label: 'Zona Sul', freight: 14, prazo: 1, nota: 'Estimativa tipo 99/Uber' },
-  zona_norte: { label: 'Zona Norte', freight: 15, prazo: 1, nota: 'Estimativa tipo 99/Uber' },
-  zona_leste: { label: 'Zona Leste', freight: 16, prazo: 1, nota: 'Estimativa tipo 99/Uber' },
-  zona_oeste: { label: 'Zona Oeste', freight: 15, prazo: 1, nota: 'Estimativa tipo 99/Uber' },
-  abc: { label: 'ABC', freight: 19, prazo: 1, nota: 'Estimativa tipo 99/Uber — Grande ABC' },
-  litoral: { label: 'Litoral (Baixada Santista)', freight: 32, prazo: 2, nota: 'Estimativa tipo 99/Uber — distância maior' }
+  centro: { label: 'Centro', freight: 13, prazo: 1, nota: 'Entrega na região central' },
+  zona_sul: { label: 'Zona Sul', freight: 14, prazo: 1, nota: 'Entrega na Zona Sul' },
+  zona_norte: { label: 'Zona Norte', freight: 15, prazo: 1, nota: 'Entrega na Zona Norte' },
+  zona_leste: { label: 'Zona Leste', freight: 16, prazo: 1, nota: 'Entrega na Zona Leste' },
+  zona_oeste: { label: 'Zona Oeste', freight: 15, prazo: 1, nota: 'Entrega na Zona Oeste' },
+  abc: { label: 'ABC', freight: 19, prazo: 1, nota: 'Entrega na Grande ABC' },
+  litoral: { label: 'Litoral (Baixada Santista)', freight: 32, prazo: 2, nota: 'Entrega no litoral paulista' }
 };
 
 /** Área atendida: capital + ABC + litoral SP */

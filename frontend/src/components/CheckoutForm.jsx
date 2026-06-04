@@ -406,7 +406,7 @@ export function CheckoutForm({ onSuccess }) {
 
         Pré-cadastro rápido. {FRETE_MENSAGEM_AREA} Frete grátis em pedidos a partir de{' '}
 
-        {priceBRL(FRETE_GRATIS_MINIMO)} (SP). Valor por região — estimativa tipo 99/Uber, sem espera dos Correios.
+        {priceBRL(FRETE_GRATIS_MINIMO)} (SP). Frete calculado por região ao informar o CEP.
 
       </p>
 
