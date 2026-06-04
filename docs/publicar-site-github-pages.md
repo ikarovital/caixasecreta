@@ -10,7 +10,15 @@ Sem isso, o workflow roda mas o domínio não troca para o React.
 
 ## Automático
 
-Cada push em `main` que altere `frontend/` dispara **Deploy frontend (GitHub Pages)**.
+Cada push em `main` dispara **Deploy frontend (GitHub Pages)**.
+
+O site HTML antigo ficou em `legado/` (fora da raiz) para o Pages não publicar `index.html` da raiz.
+
+## Plano B (se o domínio ainda mostrar site antigo)
+
+1. **Actions** → **Deploy gh-pages branch (plano B)** → **Run workflow**
+2. **Settings → Pages** → **Deploy from a branch** → branch `gh-pages` → pasta `/ (root)`
+3. Aguarde 2–5 min e teste o domínio em aba anônima
 
 ## Manual
 
