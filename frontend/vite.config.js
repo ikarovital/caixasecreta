@@ -3,7 +3,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { VitePWA } from 'vite-plugin-pwa';
 import { freteApiPlugin } from './server/frete-api-plugin.js';
+import { createPwaPlugin } from './pwa.config.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const EXTRACAO_ROOT = path.resolve(__dirname, '../dados/extracao_pdf');
@@ -40,7 +42,7 @@ function serveExtracaoPdf() {
 }
 
 export default defineConfig({
-  plugins: [react(), serveExtracaoPdf(), freteApiPlugin()],
+  plugins: [react(), serveExtracaoPdf(), freteApiPlugin(), createPwaPlugin(VitePWA)],
   server: {
     port: 5173,
     strictPort: true,
