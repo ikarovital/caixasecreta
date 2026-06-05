@@ -27,8 +27,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:08:52+00:00",
-    "updatedAt": "2026-06-03T21:08:52+00:00"
+    "createdAt": "2026-06-05T13:30:08+00:00",
+    "updatedAt": "2026-06-05T13:30:08+00:00"
   },
   {
     "id": "lingeries-hl040",
@@ -58,8 +58,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:08:53+00:00",
-    "updatedAt": "2026-06-03T21:08:53+00:00"
+    "createdAt": "2026-06-05T13:30:10+00:00",
+    "updatedAt": "2026-06-05T13:30:10+00:00"
   },
   {
     "id": "lingeries-hl020",
@@ -90,8 +90,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:08:53+00:00",
-    "updatedAt": "2026-06-03T21:08:53+00:00"
+    "createdAt": "2026-06-05T13:30:12+00:00",
+    "updatedAt": "2026-06-05T13:30:12+00:00"
   },
   {
     "id": "lingeries-840",
@@ -122,8 +122,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:08:54+00:00",
-    "updatedAt": "2026-06-03T21:08:54+00:00"
+    "createdAt": "2026-06-05T13:30:13+00:00",
+    "updatedAt": "2026-06-05T13:30:13+00:00"
   },
   {
     "id": "lingeries-ms0693",
@@ -148,8 +148,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:08:55+00:00",
-    "updatedAt": "2026-06-03T21:08:55+00:00"
+    "createdAt": "2026-06-05T13:30:15+00:00",
+    "updatedAt": "2026-06-05T13:30:15+00:00"
   },
   {
     "id": "lingeries-ms0692",
@@ -175,8 +175,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:08:55+00:00",
-    "updatedAt": "2026-06-03T21:08:55+00:00"
+    "createdAt": "2026-06-05T13:30:17+00:00",
+    "updatedAt": "2026-06-05T13:30:17+00:00"
   },
   {
     "id": "lingeries-19312",
@@ -204,8 +204,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:08:56+00:00",
-    "updatedAt": "2026-06-03T21:08:56+00:00"
+    "createdAt": "2026-06-05T13:30:18+00:00",
+    "updatedAt": "2026-06-05T13:30:18+00:00"
   },
   {
     "id": "lingeries-838",
@@ -237,8 +237,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:08:56+00:00",
-    "updatedAt": "2026-06-03T21:08:56+00:00"
+    "createdAt": "2026-06-05T13:30:19+00:00",
+    "updatedAt": "2026-06-05T13:30:19+00:00"
   },
   {
     "id": "calcinhas-4",
@@ -258,13 +258,12 @@
     "image": "/importados/catalogo/calcinhas/4-frente.png",
     "imageBack": "/importados/catalogo/calcinhas/4-verso.png",
     "page": null,
-    "source": "Miess — Catálogo oficial (VTEX)",
+    "source": "catalogo_caixa_secreta.xlsx — CALCINHA",
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:08:57+00:00",
-    "updatedAt": "2026-06-03T21:08:57+00:00",
-    "miessUrl": "https://www.miess.com.br/calcinha-luxo-em-tule-com-detalhes-em-strass-colecao-metamorfose-tallyta-moda-apimentada-4-448/p"
+    "createdAt": "2026-06-05T13:30:21+00:00",
+    "updatedAt": "2026-06-05T13:30:21+00:00"
   },
   {
     "id": "calcinhas-0683",
@@ -290,8 +289,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:08:58+00:00",
-    "updatedAt": "2026-06-03T21:08:58+00:00"
+    "createdAt": "2026-06-05T13:30:23+00:00",
+    "updatedAt": "2026-06-05T13:30:23+00:00"
   },
   {
     "id": "calcinhas-404",
@@ -326,8 +325,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:08:59+00:00",
-    "updatedAt": "2026-06-03T21:08:59+00:00"
+    "createdAt": "2026-06-05T13:30:25+00:00",
+    "updatedAt": "2026-06-05T13:30:25+00:00"
   },
   {
     "id": "calcinhas-hl596",
@@ -358,8 +357,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:00+00:00",
-    "updatedAt": "2026-06-03T21:09:00+00:00"
+    "createdAt": "2026-06-05T13:30:27+00:00",
+    "updatedAt": "2026-06-05T13:30:27+00:00"
   },
   {
     "id": "camisolas-827-p-azul-marinho",
@@ -382,8 +381,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:00+00:00",
-    "updatedAt": "2026-06-03T21:09:00+00:00"
+    "createdAt": "2026-06-05T13:30:28+00:00",
+    "updatedAt": "2026-06-05T13:30:28+00:00"
   },
   {
     "id": "camisolas-3",
@@ -406,8 +405,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:00+00:00",
-    "updatedAt": "2026-06-03T21:09:00+00:00"
+    "createdAt": "2026-06-05T13:30:29+00:00",
+    "updatedAt": "2026-06-05T13:30:29+00:00"
   },
   {
     "id": "camisolas-889-p-roxo-odalisca",
@@ -430,8 +429,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:00+00:00",
-    "updatedAt": "2026-06-03T21:09:00+00:00"
+    "createdAt": "2026-06-05T13:30:29+00:00",
+    "updatedAt": "2026-06-05T13:30:29+00:00"
   },
   {
     "id": "camisolas-878pt-p-roxo-azulejo",
@@ -454,8 +453,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:01+00:00",
-    "updatedAt": "2026-06-03T21:09:01+00:00"
+    "createdAt": "2026-06-05T13:30:30+00:00",
+    "updatedAt": "2026-06-05T13:30:30+00:00"
   },
   {
     "id": "camisolas-1523-gg-vermelho",
@@ -478,8 +477,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:01+00:00",
-    "updatedAt": "2026-06-03T21:09:01+00:00"
+    "createdAt": "2026-06-05T13:30:31+00:00",
+    "updatedAt": "2026-06-05T13:30:31+00:00"
   },
   {
     "id": "camisolas-550pt-roxo-azulejo",
@@ -502,8 +501,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:01+00:00",
-    "updatedAt": "2026-06-03T21:09:01+00:00"
+    "createdAt": "2026-06-05T13:30:31+00:00",
+    "updatedAt": "2026-06-05T13:30:31+00:00"
   },
   {
     "id": "camisolas-0667-p-marinho-com-azul-bebe",
@@ -526,8 +525,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:02+00:00",
-    "updatedAt": "2026-06-03T21:09:02+00:00"
+    "createdAt": "2026-06-05T13:30:32+00:00",
+    "updatedAt": "2026-06-05T13:30:32+00:00"
   },
   {
     "id": "camisolas-0659-p-rose-com-pink",
@@ -550,8 +549,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:02+00:00",
-    "updatedAt": "2026-06-03T21:09:02+00:00"
+    "createdAt": "2026-06-05T13:30:34+00:00",
+    "updatedAt": "2026-06-05T13:30:34+00:00"
   },
   {
     "id": "camisolas-0666-p-azul-bebe-com-roxo",
@@ -574,8 +573,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:02+00:00",
-    "updatedAt": "2026-06-03T21:09:02+00:00"
+    "createdAt": "2026-06-05T13:30:35+00:00",
+    "updatedAt": "2026-06-05T13:30:35+00:00"
   },
   {
     "id": "camisolas-3",
@@ -598,8 +597,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:03+00:00",
-    "updatedAt": "2026-06-03T21:09:03+00:00"
+    "createdAt": "2026-06-05T13:30:36+00:00",
+    "updatedAt": "2026-06-05T13:30:36+00:00"
   },
   {
     "id": "camisolas-hl724-p-preto",
@@ -622,8 +621,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:03+00:00",
-    "updatedAt": "2026-06-03T21:09:03+00:00"
+    "createdAt": "2026-06-05T13:30:37+00:00",
+    "updatedAt": "2026-06-05T13:30:37+00:00"
   },
   {
     "id": "camisolas-1509-gg-preto",
@@ -646,8 +645,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:04+00:00",
-    "updatedAt": "2026-06-03T21:09:04+00:00"
+    "createdAt": "2026-06-05T13:30:38+00:00",
+    "updatedAt": "2026-06-05T13:30:38+00:00"
   },
   {
     "id": "camisolas-868pt-m-azul-marinho",
@@ -670,8 +669,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:04+00:00",
-    "updatedAt": "2026-06-03T21:09:04+00:00"
+    "createdAt": "2026-06-05T13:30:38+00:00",
+    "updatedAt": "2026-06-05T13:30:38+00:00"
   },
   {
     "id": "camisolas-0670-p-azul-marinho",
@@ -694,8 +693,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:05+00:00",
-    "updatedAt": "2026-06-03T21:09:05+00:00"
+    "createdAt": "2026-06-05T13:30:39+00:00",
+    "updatedAt": "2026-06-05T13:30:39+00:00"
   },
   {
     "id": "camisolas-0671-p-pantera",
@@ -718,8 +717,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:05+00:00",
-    "updatedAt": "2026-06-03T21:09:05+00:00"
+    "createdAt": "2026-06-05T13:30:40+00:00",
+    "updatedAt": "2026-06-05T13:30:40+00:00"
   },
   {
     "id": "espartilhos-298pt",
@@ -742,8 +741,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:06+00:00",
-    "updatedAt": "2026-06-03T21:09:06+00:00"
+    "createdAt": "2026-06-05T13:30:42+00:00",
+    "updatedAt": "2026-06-05T13:30:42+00:00"
   },
   {
     "id": "espartilhos-vt269",
@@ -768,8 +767,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:06+00:00",
-    "updatedAt": "2026-06-03T21:09:06+00:00"
+    "createdAt": "2026-06-05T13:30:44+00:00",
+    "updatedAt": "2026-06-05T13:30:44+00:00"
   },
   {
     "id": "espartilhos-vt289",
@@ -794,8 +793,8 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:07+00:00",
-    "updatedAt": "2026-06-03T21:09:07+00:00"
+    "createdAt": "2026-06-05T13:30:45+00:00",
+    "updatedAt": "2026-06-05T13:30:45+00:00"
   },
   {
     "id": "espartilhos-vt206",
@@ -820,7 +819,7 @@
     "importSource": "planilha-caixa-secreta",
     "published": true,
     "active": true,
-    "createdAt": "2026-06-03T21:09:08+00:00",
-    "updatedAt": "2026-06-03T21:09:08+00:00"
+    "createdAt": "2026-06-05T13:30:47+00:00",
+    "updatedAt": "2026-06-05T13:30:47+00:00"
   }
 ]
