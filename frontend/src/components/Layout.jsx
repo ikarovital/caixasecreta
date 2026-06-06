@@ -38,22 +38,21 @@ export function Layout() {
   }, [location.pathname, location.search, location.hash]);
 
   useEffect(() => {
-    if (location.pathname === '/busca') {
-      const q = new URLSearchParams(location.search).get('q') || '';
-      setSearchDraft(q);
-    } else {
+    if (location.pathname !== '/busca') {
       setSearchDraft('');
     }
-  }, [location.pathname, location.search]);
+  }, [location.pathname]);
 
   const runSearch = useCallback(
-    (rawValue) => {
+    (rawValue, { clearField = false } = {}) => {
       const safe = sanitizeSearchQuery(rawValue);
       const trimmed = safe.trim();
       if (trimmed) {
         navigate(`/busca?q=${encodeURIComponent(trimmed)}`);
+        if (clearField) setSearchDraft('');
       } else if (location.pathname === '/busca') {
         navigate('/');
+        if (clearField) setSearchDraft('');
       }
     },
     [location.pathname, navigate]
@@ -68,7 +67,7 @@ export function Layout() {
 
   const handleSearchSubmit = () => {
     clearTimeout(searchDebounceRef.current);
-    runSearch(searchDraft);
+    runSearch(searchDraft, { clearField: true });
   };
 
   useEffect(

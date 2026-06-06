@@ -17,7 +17,7 @@ function ProductImage({ p, className, priority, src, alt }) {
     <img
       src={assetUrl(url)}
       alt={alt || p?.name || 'Produto'}
-      className={`h-full w-full object-contain object-center ${className}`}
+      className={`h-full w-full max-h-full max-w-full object-contain object-center ${className}`}
       loading="lazy"
       decoding="async"
       fetchPriority={priority ? 'high' : 'low'}
@@ -80,13 +80,17 @@ function ProductCard({
         aria-expanded={selected || showDesktopExpand}
       >
         <div
-          className={`bg-white border-b border-white/10 flex items-center justify-center overflow-hidden p-0.5 sm:p-1 ${
-            showDesktopExpand ? 'h-32 sm:h-40 lg:h-72' : 'h-32 sm:h-40 lg:h-44'
+          className={`bg-white border-b border-white/10 flex items-center justify-center overflow-hidden p-1 sm:p-1.5 ${
+            showDesktopExpand
+              ? 'h-40 sm:h-48 lg:h-72'
+              : p.imageBack
+                ? 'h-44 sm:h-48 lg:h-48'
+                : 'h-36 sm:h-40 lg:h-44'
           }`}
         >
           <ProductPhotoPair
             p={p}
-            className="max-h-full max-w-full"
+            className="h-full w-full"
             priority={showDesktopExpand}
             mode={p.imageBack && !showDesktopExpand ? 'front' : 'pair'}
           />

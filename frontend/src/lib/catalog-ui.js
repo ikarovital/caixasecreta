@@ -1,4 +1,4 @@
-export const CATALOG_ASSET_VERSION = '27';
+export const CATALOG_ASSET_VERSION = '28';
 
 export function priceBRL(v) {
   try {
