@@ -25,7 +25,7 @@ function HeaderIconLink({ to, label, title, children, badge, badgeClass = 'bg-pu
   );
 }
 
-export function Header({ onSearch, searchValue, onMenuOpen }) {
+export function Header({ onSearchChange, onSearchSubmit, searchValue, onMenuOpen }) {
   const { count: cartCount } = useCart();
   const { isLoggedIn } = useCustomer();
 
@@ -66,10 +66,20 @@ export function Header({ onSearch, searchValue, onMenuOpen }) {
             <div className="relative w-full max-w-xl">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60" />
               <input
+                type="search"
+                enterKeyHint="search"
                 value={searchValue}
-                onChange={(e) => onSearch?.(e.target.value)}
+                onChange={(e) => onSearchChange?.(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    onSearchSubmit?.();
+                  }
+                }}
+                onFocus={(e) => e.target.select()}
                 placeholder="Buscar nome ou ref…"
                 className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/5 py-2 pl-9 pr-3 text-sm text-white placeholder:text-white/45 focus:border-purpleGlow-500/40 focus:outline-none"
+                aria-label="Buscar por nome ou referência"
               />
             </div>
           </div>
